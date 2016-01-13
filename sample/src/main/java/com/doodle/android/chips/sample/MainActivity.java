@@ -145,8 +145,6 @@ public class MainActivity extends AppCompatActivity {
                 mChipsView.removeChipBy(contact);
             } else {
                 mChipsView.addChip(email, imgUrl, contact);
-                mChipsView.addChip(email, imgUrl, contact);
-                mChipsView.addChip(email, imgUrl, contact);
             }
             checkBox.toggle();
         }

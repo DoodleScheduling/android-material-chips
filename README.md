@@ -1,5 +1,4 @@
 # Android Material Chips
-======
 
 A different approach to implement android material chips since using transformed images inside an EditText cause too many exceptions on older devices and older versions.
 
@@ -15,12 +14,15 @@ A different approach to implement android material chips since using transformed
 **Customize your layout and text**
 
 ![MaterialChips3](./images/dc56.png)
- 
-Download
---------
-**Download**: 
 
-**Gradle**: 
+##Sample
+**APK:** [AndroidMaterialChips-1.0-sample](https://github.com/DoodleScheduling/android-material-chips/releases/download/1.0/AndroidMaterialChips-1.0-sample.apk)
+ 
+##Download
+
+**AAR:** [AndroidMaterialChips-1.0](https://github.com/DoodleScheduling/android-material-chips/releases/download/1.0/AndroidMaterialChips-1.0.aar)
+
+**Gradle:** 
 
 
 ##Usage
@@ -58,7 +60,7 @@ Include ```xmlns:app="http://schemas.android.com/apk/res-auto"``` and customize 
     app:cv_dialog_confirm="confirm2"
     app:cv_dialog_cancel="cancel2"
 ```
----
+======
 Find the View in your Activity or Fragment class.
 
 ```java
