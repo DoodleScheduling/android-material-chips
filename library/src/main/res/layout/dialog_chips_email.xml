@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/paper"
+        >
+
+        <!--Title-->
+        <TextView
+            android:id="@+id/tv_ch_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="20dp"
+            android:text="@string/chips_enter_email_address"
+            />
+
+        <!--New Name-->
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_ch_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/blue"
+            />
+
+        <!--Action Area-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            >
+
+            <!--Confirm-->
+            <Button
+                android:id="@+id/bu_ch_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_trans_base10"
+                android:gravity="center"
+                android:minWidth="64dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="@string/confirm"
+                android:textColor="@color/blue"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                />
+
+            <!--Cancel-->
+            <Button
+                android:id="@+id/bu_ch_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_toLeftOf="@id/bu_ch_confirm"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/btn_trans_base10"
+                android:gravity="center"
+                android:minWidth="64dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="@string/cancel"
+                android:textColor="@color/blue"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

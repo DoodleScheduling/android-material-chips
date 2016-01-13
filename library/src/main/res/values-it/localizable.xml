@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chips_enter_email_address">Inserisci un indirizzo e-mail valido per questa persona</string>
+    <string name="please_enter_a_valid_email_address">Inserisci un indirizzo e-mail valido.</string>
+    <string name="email">E-mail</string>
+    <string name="confirm">Conferma</string>
+    <string name="cancel">Annulla</string>
+</resources>

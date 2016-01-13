@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ChipsView">
+        <attr name="cv_bg_color" format="color"/>
+        <attr name="cv_bg_color_clicked" format="color"/>
+        <attr name="cv_color" format="color"/>
+        <attr name="cv_color_clicked" format="color"/>
+        <attr name="cv_text_color" format="color"/>
+        <attr name="cv_text_color_clicked" format="color"/>
+        <attr name="cv_icon_placeholder" format="reference"/>
+        <attr name="cv_icon_delete" format="reference"/>
+        <attr name="cv_dialog_title" format="string"/>
+        <attr name="cv_dialog_et_placeholder" format="string"/>
+        <attr name="cv_dialog_confirm" format="string"/>
+        <attr name="cv_dialog_cancel" format="string"/>
+        <attr name="cv_dialog_error_msg" format="string"/>
+    </declare-styleable>
+</resources>
