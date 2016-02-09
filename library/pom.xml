@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.doodle.android</groupId>
+    <artifactId>android-material-chips</artifactId>
+    <version>1.0.0</version>
+    <inceptionYear>2016</inceptionYear>
+    <packaging>aar</packaging>
+
+    <name>Android Material Chips</name>
+    <description>Implementation of Android Material Chips</description>
+    <url>https://github.com/DoodleScheduling/android-material-chips</url>
+
+    <organization>
+        <name>Doodle AG</name>
+        <url>http://doodle.com</url>
+    </organization>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/DoodleScheduling/android-material-chips/issues</url>
+    </issueManagement>
+
+    <scm>
+        <connection>https://github.com/DoodleScheduling/android-material-chips.git</connection>
+        <developerConnection>https://github.com/DoodleScheduling/android-material-chips.git</developerConnection>
+        <url>https://github.com/DoodleScheduling/android-material-chips</url>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>Apache 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.android.support</groupId>
+            <artifactId>appcompat-v7</artifactId>
+            <version>23.1.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.makeramen</groupId>
+            <artifactId>roundedimageview</artifactId>
+            <version>2.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.picasso</groupId>
+            <artifactId>picasso</artifactId>
+            <version>2.5.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.rengwuxian.materialedittext</groupId>
+            <artifactId>library</artifactId>
+            <version>2.1.4</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>
