@@ -3,17 +3,21 @@
 A different approach to implement android material chips since using transformed images inside an EditText cause too many exceptions on older devices and older versions.
 
 ## Features
-**Enter an email address and it will automatically be transform into a chip**
- 
-![MaterialChips1](./images/dc12.png)
+**Enter an email address and it will automatically transform into a chip**
+
+<p>
+<img src="./images/dc1.png" title="MaterialChips1" width="40%" />
+<img src="./images/dc2.png" title="MaterialChips2" width="40%" />
+</p>
 
 **Email validation dialog**
 
-![MaterialChips2](./images/dc34.png)
+<p>
+<img src="./images/dc3.png" title="MaterialChips3" width="40%" />
+<img src="./images/dc4.png" title="MaterialChips4" width="40%" />
+</p>
 
 **Customize your layout and text**
-
-![MaterialChips3](./images/dc56.png)
 
 ##Sample
 **APK:** [AndroidMaterialChips-1.0-sample](https://github.com/DoodleScheduling/android-material-chips/releases/download/1.0/AndroidMaterialChips-1.0-sample.apk)
@@ -23,6 +27,8 @@ A different approach to implement android material chips since using transformed
 **AAR:** [AndroidMaterialChips-1.0](https://github.com/DoodleScheduling/android-material-chips/releases/download/1.0/AndroidMaterialChips-1.0.aar)
 
 **Gradle:** 
+
+```compile 'com.doodle.android:android-material-chips:1.0.0'```
 
 
 ##Usage
