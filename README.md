@@ -24,11 +24,11 @@ A different approach to implement android material chips since using transformed
  
 ##Download
 
-**AAR:** [AndroidMaterialChips-1.0](https://github.com/DoodleScheduling/android-material-chips/releases/download/1.0/AndroidMaterialChips-1.0.aar)
-
 **Gradle:** 
 
-```compile 'com.doodle.android:android-material-chips:1.0.0'```
+```gradle
+compile 'com.doodle.android:android-material-chips:1.0.0'
+```
 
 
 ##Usage
