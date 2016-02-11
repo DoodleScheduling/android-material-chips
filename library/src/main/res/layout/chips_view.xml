@@ -47,6 +47,18 @@
         android:layout_toRightOf="@id/rl_ch_avatar"
         android:singleLine="true"
         android:textSize="16sp"
+        android:text="asdasd"
         />
+
+    <ImageView
+        android:id="@+id/iv_ch_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_ch_name"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dp"
+        android:src="@drawable/ic_error_red_24dp"
+        android:visibility="gone"/>
+
 
 </RelativeLayout>

@@ -52,6 +52,16 @@ public class MainActivity extends AppCompatActivity {
 
         mChipsView = (ChipsView) findViewById(R.id.chipsView);
 
+        mChipsView.setChipsValidator(new ChipsView.ChipValidator() {
+            @Override
+            public boolean isValid(Contact contact) {
+                if (contact.getDisplayName().equals("asd@qwe.de")) {
+                    return false;
+                }
+                return true;
+            }
+        });
+
         mChipsView.setChipsListener(new ChipsView.ChipsListener() {
             @Override
             public void onChipAdded(ChipsView.Chip chip) {

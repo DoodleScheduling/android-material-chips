@@ -73,10 +73,13 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
 
     private int mChipsColor;
     private int mChipsColorClicked;
+    private int mChipsColorErrorClicked;
     private int mChipsBgColor;
     private int mChipsBgColorClicked;
+    private int mChipsBgColorErrorClicked;
     private int mChipsTextColor;
     private int mChipsTextColorClicked;
+    private int mChipsTextColorErrorClicked;
     private int mChipsPlaceholderResId;
     private int mChipsDeleteResId;
 
@@ -100,6 +103,8 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
     private List<Chip> mChipList = new ArrayList<>();
 
     private Object mCurrentEditTextSpan;
+
+    private ChipValidator mChipsValidator;
 
     public ChipsView(Context context) {
         super(context);
@@ -135,15 +140,22 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
                     ContextCompat.getColor(context, R.color.base30));
             mChipsColorClicked = a.getColor(R.styleable.ChipsView_cv_color_clicked,
                     ContextCompat.getColor(context, R.color.colorPrimaryDark));
+            mChipsColorErrorClicked = a.getColor(R.styleable.ChipsView_cv_color_error_clicked,
+                    ContextCompat.getColor(context, R.color.color_error));
 
             mChipsBgColor = a.getColor(R.styleable.ChipsView_cv_bg_color,
                     ContextCompat.getColor(context, R.color.base10));
             mChipsBgColorClicked = a.getColor(R.styleable.ChipsView_cv_bg_color_clicked,
                     ContextCompat.getColor(context, R.color.blue));
 
+            mChipsBgColorErrorClicked = a.getColor(R.styleable.ChipsView_cv_bg_color_clicked,
+                    ContextCompat.getColor(context, R.color.color_error));
+
             mChipsTextColor = a.getColor(R.styleable.ChipsView_cv_text_color,
                     Color.BLACK);
             mChipsTextColorClicked = a.getColor(R.styleable.ChipsView_cv_text_color_clicked,
+                    Color.WHITE);
+            mChipsTextColorErrorClicked = a.getColor(R.styleable.ChipsView_cv_text_color_clicked,
                     Color.WHITE);
 
             mChipsPlaceholderResId = a.getResourceId(R.styleable.ChipsView_cv_icon_placeholder,
@@ -426,6 +438,13 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         onEmailRecognized(new Contact(initialText, "", initialText, email, null));
     }
 
+    /**
+     * sets the ChipsValidator.
+     */
+    public void setChipsValidator(ChipValidator mChipsValidator) {
+        this.mChipsValidator = mChipsValidator;
+    }
+
     private class EditTextListener implements TextWatcher {
 
         private boolean mIsPasteTextChange = false;
@@ -528,6 +547,8 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         private ImageView mPersonIcon;
         private ImageView mCloseIcon;
 
+        private ImageView mErrorIcon;
+
         private boolean mIsSelected = false;
 
         public Chip(String label, Uri photoUri, Contact contact) {
@@ -558,6 +579,8 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
                 mTextView = (TextView) mView.findViewById(R.id.tv_ch_name);
                 mPersonIcon = (ImageView) mView.findViewById(R.id.iv_ch_person);
                 mCloseIcon = (ImageView) mView.findViewById(R.id.iv_ch_close);
+
+                mErrorIcon = (ImageView) mView.findViewById(R.id.iv_ch_error);
 
                 // set inital res & attrs
                 mView.setBackgroundResource(mChipsBgRes);
@@ -601,15 +624,29 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
                         });
             }
             if (isSelected()) {
-                mView.getBackground().setColorFilter(mChipsBgColorClicked, PorterDuff.Mode.SRC_ATOP);
-                mTextView.setTextColor(mChipsTextColorClicked);
-                mIconWrapper.getBackground().setColorFilter(mChipsColorClicked, PorterDuff.Mode.SRC_ATOP);
-
+                if (mChipsValidator != null && !mChipsValidator.isValid(mContact)) {
+                    // not valid & show error
+                    mView.getBackground().setColorFilter(mChipsBgColorErrorClicked, PorterDuff.Mode.SRC_ATOP);
+                    mTextView.setTextColor(mChipsTextColorErrorClicked);
+                    mIconWrapper.getBackground().setColorFilter(mChipsColorErrorClicked, PorterDuff.Mode.SRC_ATOP);
+                    mErrorIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                } else {
+                    mView.getBackground().setColorFilter(mChipsBgColorClicked, PorterDuff.Mode.SRC_ATOP);
+                    mTextView.setTextColor(mChipsTextColorClicked);
+                    mIconWrapper.getBackground().setColorFilter(mChipsColorClicked, PorterDuff.Mode.SRC_ATOP);
+                }
                 mPersonIcon.animate().alpha(0.0f).setDuration(200).start();
                 mAvatarView.animate().alpha(0.0f).setDuration(200).start();
                 mCloseIcon.animate().alpha(1f).setDuration(200).setStartDelay(100).start();
 
             } else {
+                if (mChipsValidator != null && !mChipsValidator.isValid(mContact)) {
+                    // not valid & show error
+                    mErrorIcon.setVisibility(View.VISIBLE);
+                    mErrorIcon.setColorFilter(null);
+                } else {
+                    mErrorIcon.setVisibility(View.GONE);
+                }
                 mView.getBackground().setColorFilter(mChipsBgColor, PorterDuff.Mode.SRC_ATOP);
                 mTextView.setTextColor(mChipsTextColor);
                 mIconWrapper.getBackground().setColorFilter(mChipsColor, PorterDuff.Mode.SRC_ATOP);
@@ -660,5 +697,9 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         void onChipDeleted(Chip chip);
 
         void onTextChanged(CharSequence text);
+    }
+
+    public static abstract class ChipValidator {
+        public abstract boolean isValid(Contact contact);
     }
 }

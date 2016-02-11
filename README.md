@@ -55,10 +55,13 @@ Include ```xmlns:app="http://schemas.android.com/apk/res-auto"``` and customize 
     android:layout_height="wrap_content"
     app:cv_bg_color="#f00"
     app:cv_bg_color_clicked="#0f0"
+    app:cv_bg_color_error_clicked="#0f0"
     app:cv_color="#00f"
     app:cv_color_clicked="#721"
+    app:cv_color_error_clicked="#f00"
     app:cv_text_color="#199"
     app:cv_text_color_clicked="#180"
+    app:cv_text_color_error_clicked="#000"
     app:cv_icon_placeholder="@drawable/ic_bug_report_24dp"
     app:cv_icon_delete="@drawable/ic_close_24dp"
     app:cv_dialog_title="This is the title"
@@ -107,6 +110,21 @@ mChipsView.addChip(email, imgUrl, contact);
 ```java
 mChipsView.removeChipBy(contact);
 ```
+
+**Add Custom chip validator**
+
+```java
+mChipsView.setChipsValidator(new ChipsView.ChipValidator() {
+    @Override
+    public boolean isValid(Contact contact) {
+        return true;
+    }
+});
+```
+
+<p>
+<img src="./images/chip_error.png" title="Chip Error" width="80%" />
+</p>
 
 ## License
 

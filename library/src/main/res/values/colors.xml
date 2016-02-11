@@ -9,6 +9,8 @@
     <color name="blue">#4a90e2</color>
     <color name="mediumBlue">#3978c1</color>
 
+    <color name="color_error">#FFCB0017</color>
+
     <color name="base10">#eaeaea</color>
     <color name="base30">#c1c1c1</color>
 
