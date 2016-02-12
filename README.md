@@ -20,14 +20,14 @@ A different approach to implement android material chips since using transformed
 **Customize your layout and text**
 
 ##Sample
-**APK:** [AndroidMaterialChips-1.0-sample](https://github.com/DoodleScheduling/android-material-chips/releases/download/1.0/AndroidMaterialChips-1.0-sample.apk)
+**APK:** [sample-apk-1.0.1](https://github.com/DoodleScheduling/android-material-chips/releases/download/1.0.1/android-material-chips-1.0.1-sample.apk)
  
 ##Download
 
 **Gradle:** 
 
 ```gradle
-compile 'com.doodle.android:android-material-chips:1.0.0'
+compile 'com.doodle.android:android-material-chips:1.0.1'
 ```
 
 
