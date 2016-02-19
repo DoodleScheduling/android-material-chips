@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
         mChipsView = (ChipsView) findViewById(R.id.chipsView);
 
+        // change EditText config
+        mChipsView.getEditText().setCursorVisible(true);
+
         mChipsView.setChipsValidator(new ChipsView.ChipValidator() {
             @Override
             public boolean isValid(Contact contact) {

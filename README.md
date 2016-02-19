@@ -105,6 +105,12 @@ mChipsView.setChipsListener(new ChipsView.ChipsListener() {
 mChipsView.addChip(email, imgUrl, contact);
 ```
 
+**Add a non-removable chip.**
+
+```java
+mChipsView.addChip(email, imgUrl, contact, true);
+```
+
 **Remove a chip**
 
 ```java

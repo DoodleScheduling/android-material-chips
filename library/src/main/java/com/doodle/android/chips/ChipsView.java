@@ -41,6 +41,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -443,6 +444,10 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
      */
     public void setChipsValidator(ChipValidator mChipsValidator) {
         this.mChipsValidator = mChipsValidator;
+    }
+
+    public EditText getEditText() {
+        return mEditText;
     }
 
     private class EditTextListener implements TextWatcher {
