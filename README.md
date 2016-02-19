@@ -126,6 +126,10 @@ mChipsView.setChipsValidator(new ChipsView.ChipValidator() {
 <img src="./images/chip_error.png" title="Chip Error" width="80%" />
 </p>
 
+##Apps with Android chips:
+
+* [Doodle](https://doodle.com) Android App: [Play Store](https://play.google.com/store/apps/details?id=com.doodle.android)
+
 ## License
 
     Copyright (C) 2016 Doodle AG.
