@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -68,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
         mChipsView.setChipsListener(new ChipsView.ChipsListener() {
             @Override
             public void onChipAdded(ChipsView.Chip chip) {
-
+                for (ChipsView.Chip chipItem : mChipsView.getChips()) {
+                    Log.d("ChipList", "chip: " + chipItem.toString());
+                }
             }
 
             @Override
