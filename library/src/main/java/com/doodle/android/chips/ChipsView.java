@@ -62,18 +62,18 @@ import java.util.List;
 
 public class ChipsView extends RelativeLayout implements ChipsEditText.InputConnectionWrapperInterface, ChipsEmailDialogFragment.EmailListener {
 
+    //<editor-fold desc="Static Fields">
     private static final String TAG = "ChipsView";
-
     private static final int CHIP_HEIGHT = 33;
     private static final int TEXT_EXTRA_TOP_MARGIN = 4;
     public static final int CHIP_BOTTOM_PADDING = 1;
+    //</editor-fold>
 
-    // RES --------------------------------------------------
-
+    //<editor-fold desc="Resources">
     private int mChipsBgRes = R.drawable.chip_background;
+    //</editor-fold>
 
-    // ------------------------------------------------------
-
+    //<editor-fold desc="Attributes">
     private int mChipsColor;
     private int mChipsColorClicked;
     private int mChipsColorErrorClicked;
@@ -91,24 +91,20 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
     private String mChipsDialogConfirm;
     private String mChipsDialogCancel;
     private String mChipsDialogErrorMsg;
+    //</editor-fold>
 
-    // ------------------------------------------------------
-
+    //<editor-fold desc="Private Fields">
     private float mDensity;
-
     private ChipsListener mChipsListener;
-
     private ChipsEditText mEditText;
     private ChipsVerticalLinearLayout mRootChipsLayout;
-
     private EditTextListener mEditTextListener;
-
     private List<Chip> mChipList = new ArrayList<>();
-
     private Object mCurrentEditTextSpan;
-
     private ChipValidator mChipsValidator;
+    //</editor-fold>
 
+    //<editor-fold desc="Constructors">
     public ChipsView(Context context) {
         super(context);
         init();
@@ -132,7 +128,9 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         initAttr(context, attrs);
         init();
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Initialization">
     private void initAttr(Context context, AttributeSet attrs) {
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
@@ -186,8 +184,6 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
             if (TextUtils.isEmpty(mChipsDialogErrorMsg)) {
                 mChipsDialogErrorMsg = getResources().getString(R.string.please_enter_a_valid_email_address);
             }
-
-
         } finally {
             a.recycle();
         }
@@ -227,6 +223,7 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
             @Override
             public void onClick(View v) {
                 mEditText.requestFocus();
+                unselectAllChips();
             }
         });
 
@@ -236,12 +233,14 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    unSelectChipsExcept(null);
+                    unselectAllChips();
                 }
             }
         });
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Public Methods">
     public void addChip(String displayName, String avatarUrl, Contact contact) {
         addChip(displayName, Uri.parse(avatarUrl), contact);
     }
@@ -288,6 +287,20 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         return null;
     }
 
+    public void setChipsListener(ChipsListener chipsListener) {
+        this.mChipsListener = chipsListener;
+    }
+
+    public void setChipsValidator(ChipValidator chipsValidator) {
+        mChipsValidator = chipsValidator;
+    }
+
+    public EditText getEditText() {
+        return mEditText;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Private Methods">
     /**
      * rebuild all chips and place them right
      */
@@ -404,7 +417,7 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
     }
 
     private void onChipInteraction(Chip chip, boolean nameClicked) {
-        unSelectChipsExcept(chip);
+        unselectChipsExcept(chip);
         if (chip.isSelected()) {
             mChipList.remove(chip);
             if (mChipsListener != null) {
@@ -423,7 +436,7 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         }
     }
 
-    private void unSelectChipsExcept(Chip rootChip) {
+    private void unselectChipsExcept(Chip rootChip) {
         for (Chip chip : mChipList) {
             if (chip != rootChip) {
                 chip.setSelected(false);
@@ -432,28 +445,26 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         onChipsChanged(false);
     }
 
+    private void unselectAllChips() {
+        unselectChipsExcept(null);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="InputConnectionWrapperInterface Implementation">
     @Override
     public InputConnection getInputConnection(InputConnection target) {
         return new KeyInterceptingInputConnection(target);
     }
+    //</editor-fold>
 
-    public void setChipsListener(ChipsListener chipsListener) {
-        this.mChipsListener = chipsListener;
-    }
-
+    //<editor-fold desc="EmailListener Implementation">
     @Override
     public void onDialogEmailEntered(String email, String initialText) {
         onEmailRecognized(new Contact(initialText, "", initialText, email, null));
     }
+    //</editor-fold>
 
-    public void setChipsValidator(ChipValidator chipsValidator) {
-        mChipsValidator = chipsValidator;
-    }
-
-    public EditText getEditText() {
-        return mEditText;
-    }
-
+    //<editor-fold desc="Inner Classes / Interfaces">
     private class EditTextListener implements TextWatcher {
 
         private boolean mIsPasteTextChange = false;
@@ -722,4 +733,5 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
     public static abstract class ChipValidator {
         public abstract boolean isValid(Contact contact);
     }
+    //</editor-fold>
 }
