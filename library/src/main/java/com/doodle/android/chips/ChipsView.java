@@ -67,9 +67,9 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     //<editor-fold desc="Static Fields">
     private static final String TAG = "ChipsView";
     private static final int CHIP_HEIGHT = 32; // dp
-    public static final int CHIP_VERTICAL_SPACING = 1; // dp
     private static final int SPACING_TOP = 4; // dp
     private static final int SPACING_BOTTOM = 4; // dp
+    public static final int DEFAULT_VERTICAL_SPACING = 1; // dp
     private static final int DEFAULT_MAX_HEIGHT = -1;
     //</editor-fold>
 
@@ -79,6 +79,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
 
     //<editor-fold desc="Attributes">
     private int mMaxHeight; // px
+    private int mVerticalSpacing;
 
     private int mChipsColor;
     private int mChipsColorClicked;
@@ -158,6 +159,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                 0, 0);
         try {
             mMaxHeight = a.getDimensionPixelSize(R.styleable.ChipsView_cv_max_height, DEFAULT_MAX_HEIGHT);
+            mVerticalSpacing = a.getDimensionPixelSize(R.styleable.ChipsView_cv_vertical_spacing, (int) (DEFAULT_VERTICAL_SPACING * mDensity));
             mChipsColor = a.getColor(R.styleable.ChipsView_cv_color,
                     ContextCompat.getColor(context, R.color.base30));
             mChipsColorClicked = a.getColor(R.styleable.ChipsView_cv_color_clicked,
@@ -227,18 +229,18 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
 
         mEditText = new ChipsEditText(getContext(), this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.bottomMargin = (int) ((SPACING_BOTTOM + CHIP_VERTICAL_SPACING) * mDensity);
+        layoutParams.bottomMargin = (int) (SPACING_BOTTOM * mDensity) + mVerticalSpacing;
         mEditText.setLayoutParams(layoutParams);
         mEditText.setMinHeight((int) (CHIP_HEIGHT * mDensity));
         mEditText.setPadding(0, 0, 0, 0);
-        mEditText.setLineSpacing(0f, (CHIP_HEIGHT * mDensity) / mEditText.getLineHeight());
+        mEditText.setLineSpacing(mVerticalSpacing, (CHIP_HEIGHT * mDensity) / mEditText.getLineHeight());
         mEditText.setBackgroundColor(Color.argb(0, 0, 0, 0));
         mEditText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI | EditorInfo.IME_ACTION_UNSPECIFIED);
         mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 
         mChipsContainer.addView(mEditText);
 
-        mRootChipsLayout = new ChipsVerticalLinearLayout(getContext());
+        mRootChipsLayout = new ChipsVerticalLinearLayout(getContext(), mVerticalSpacing);
         mRootChipsLayout.setOrientation(LinearLayout.VERTICAL);
         mRootChipsLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mRootChipsLayout.setPadding(0, (int) (SPACING_TOP * mDensity), 0, 0);
@@ -354,7 +356,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         }
 
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mEditText.getLayoutParams();
-        params.topMargin = (int) ((SPACING_TOP + textLineParams.row * (CHIP_HEIGHT + CHIP_VERTICAL_SPACING)) * mDensity);
+        params.topMargin = (int) ((SPACING_TOP + textLineParams.row * CHIP_HEIGHT) * mDensity) + textLineParams.row * mVerticalSpacing;
         mEditText.setLayoutParams(params);
         addLeadingMarginSpan(textLineParams.lineMargin);
         if (moveCursor) {
