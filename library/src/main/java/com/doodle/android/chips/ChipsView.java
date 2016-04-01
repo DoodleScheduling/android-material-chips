@@ -229,6 +229,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
 
         mEditText = new ChipsEditText(getContext(), this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.topMargin = (int) (SPACING_TOP * mDensity);
         layoutParams.bottomMargin = (int) (SPACING_BOTTOM * mDensity) + mVerticalSpacing;
         mEditText.setLayoutParams(layoutParams);
         mEditText.setMinHeight((int) (CHIP_HEIGHT * mDensity));
