@@ -11,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:elevation="6dp"
         android:orientation="horizontal"
         android:background="@color/paper"
@@ -30,6 +28,7 @@
             android:id="@+id/cv_contacts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:overScrollMode="never"
             app:cv_max_height="120dp"
             />
 

@@ -83,7 +83,7 @@ public class ChipsVerticalLinearLayout extends LinearLayout {
 
     private LinearLayout createHorizontalView() {
         LinearLayout ll = new LinearLayout(getContext());
-        ll.setPadding(0, 0, 0, (int) (ChipsView.CHIP_BOTTOM_PADDING * mDensity));
+        ll.setPadding(0, 0, 0, (int) (ChipsView.CHIP_VERTICAL_SPACING * mDensity));
         ll.setOrientation(HORIZONTAL);
         addView(ll);
         mLineLayouts.add(ll);
