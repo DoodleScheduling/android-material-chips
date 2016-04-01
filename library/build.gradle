@@ -24,6 +24,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    testCompile 'junit:junit:4.12'
 }
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs

@@ -446,11 +446,8 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         onEmailRecognized(new Contact(initialText, "", initialText, email, null));
     }
 
-    /**
-     * sets the ChipsValidator.
-     */
-    public void setChipsValidator(ChipValidator mChipsValidator) {
-        this.mChipsValidator = mChipsValidator;
+    public void setChipsValidator(ChipValidator chipsValidator) {
+        mChipsValidator = chipsValidator;
     }
 
     public EditText getEditText() {
