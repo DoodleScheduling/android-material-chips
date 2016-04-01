@@ -26,10 +26,29 @@ A different approach to implement android material chips since using transformed
 
 **Gradle:** 
 
+via [jCenter](https://bintray.com/doodlescheduling/com.doodle/doodle-android-chips)
 ```gradle
-compile 'com.doodle.android:android-material-chips:1.0.1'
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+dependencies {
+    compile 'com.doodle.android:android-material-chips:1.0.1'
+}
 ```
 
+via [JitPack.io](https://jitpack.io/#DoodleScheduling/android-material-chips)
+```gradle
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'com.github.DoodleScheduling:android-material-chips:1.0.1'
+}
+```
 
 ##Usage
 
