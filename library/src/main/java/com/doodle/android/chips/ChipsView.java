@@ -64,9 +64,10 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
 
     //<editor-fold desc="Static Fields">
     private static final String TAG = "ChipsView";
-    private static final int CHIP_HEIGHT = 33;
-    private static final int TEXT_EXTRA_TOP_MARGIN = 4;
-    public static final int CHIP_BOTTOM_PADDING = 1;
+    private static final int CHIP_HEIGHT = 33; // dp
+    private static final int TEXT_EXTRA_TOP_MARGIN = 4; // dp
+    public static final int CHIP_BOTTOM_PADDING = 1; // dp
+    private static final int DEFAULT_MAX_HEIGHT = -1;
     //</editor-fold>
 
     //<editor-fold desc="Resources">
@@ -74,6 +75,8 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
     //</editor-fold>
 
     //<editor-fold desc="Attributes">
+    private int mMaxHeight; // px
+
     private int mChipsColor;
     private int mChipsColorClicked;
     private int mChipsColorErrorClicked;
@@ -130,13 +133,21 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
     }
     //</editor-fold>
 
-    //<editor-fold desc="Initialization">
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if(mMaxHeight != DEFAULT_MAX_HEIGHT) {
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.AT_MOST);
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
     private void initAttr(Context context, AttributeSet attrs) {
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.ChipsView,
                 0, 0);
         try {
+            mMaxHeight = a.getDimensionPixelSize(R.styleable.ChipsView_cv_max_height, DEFAULT_MAX_HEIGHT);
             mChipsColor = a.getColor(R.styleable.ChipsView_cv_color,
                     ContextCompat.getColor(context, R.color.base30));
             mChipsColorClicked = a.getColor(R.styleable.ChipsView_cv_color_clicked,
