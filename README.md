@@ -35,7 +35,7 @@ buildscript {
 }
 
 dependencies {
-    compile 'com.doodle.android:android-material-chips:1.0.1'
+    compile 'com.doodle.android:android-material-chips:1.1.0'
 }
 ```
 
@@ -46,7 +46,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.DoodleScheduling:android-material-chips:1.0.1'
+    compile 'com.github.DoodleScheduling:android-material-chips:1.1.0'
 }
 ```
 
