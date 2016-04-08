@@ -3,13 +3,13 @@
 
 ##### Features
 
- * Added attribute `app:cv_max_height="${dimension}"` to make the ChipView's content scrollable beyond this limit (fixes #8)
- * Added attribute `app:cv_vertical_spacing="${dimension}"` to allow configurable spacing between rows (fixes #4)
+ * Added attribute `app:cv_max_height="${dimension}"` to make the ChipView's content scrollable beyond this limit (fixes [\#8](https://github.com/DoodleScheduling/android-material-chips/issues/8))
+ * Added attribute `app:cv_vertical_spacing="${dimension}"` to allow configurable spacing between rows (fixes [\#4](https://github.com/DoodleScheduling/android-material-chips/issues/4))
  
 ##### Misc
 
- * Added `getChips()` (fixes #6)
- * Added `getEditText()`, e.g. to allow the ChipsView to be made non-editable (fixes #2)
+ * Added `getChips()` (fixes [\#6](https://github.com/DoodleScheduling/android-material-chips/issues/6))
+ * Added `getEditText()`, e.g. to allow the ChipsView to be made non-editable (fixes [\#2](https://github.com/DoodleScheduling/android-material-chips/issues/2))
  * Improved the cursor's alignment to be centered towards the Chips in its row
  * Improved the sample application
  
