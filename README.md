@@ -26,10 +26,29 @@ A different approach to implement android material chips since using transformed
 
 **Gradle:** 
 
+via [jCenter](https://bintray.com/doodlescheduling/com.doodle/doodle-android-chips)
 ```gradle
-compile 'com.doodle.android:android-material-chips:1.0.1'
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+dependencies {
+    compile 'com.doodle.android:android-material-chips:1.0.1'
+}
 ```
 
+via [JitPack.io](https://jitpack.io/#DoodleScheduling/android-material-chips)
+```gradle
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'com.github.DoodleScheduling:android-material-chips:1.0.1'
+}
+```
 
 ##Usage
 
@@ -133,6 +152,10 @@ mChipsView.setChipsValidator(new ChipsView.ChipValidator() {
 <p>
 <img src="./images/chip_error.png" title="Chip Error" width="80%" />
 </p>
+
+##Apps with Android chips:
+
+* [Doodle](https://doodle.com) Android App: [Play Store](https://play.google.com/store/apps/details?id=com.doodle.android)
 
 ## License
 
