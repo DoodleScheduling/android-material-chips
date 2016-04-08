@@ -64,7 +64,6 @@
                 android:text="@string/confirm"
                 android:textColor="@color/blue"
                 android:textSize="14sp"
-                android:textStyle="bold"
                 />
 
             <!--Cancel-->
@@ -82,7 +81,6 @@
                 android:text="@string/cancel"
                 android:textColor="@color/blue"
                 android:textSize="14sp"
-                android:textStyle="bold"
                 />
 
         </RelativeLayout>

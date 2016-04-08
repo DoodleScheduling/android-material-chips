@@ -35,7 +35,7 @@ buildscript {
 }
 
 dependencies {
-    compile 'com.doodle.android:android-material-chips:1.0.1'
+    compile 'com.doodle.android:android-material-chips:1.1.0'
 }
 ```
 
@@ -46,7 +46,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.DoodleScheduling:android-material-chips:1.0.1'
+    compile 'com.github.DoodleScheduling:android-material-chips:1.1.0'
 }
 ```
 
@@ -72,6 +72,8 @@ Include ```xmlns:app="http://schemas.android.com/apk/res-auto"``` and customize 
     android:id="@+id/chipsView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:cv_max_height="120dp"
+    app:cv_vertical_spacing="2dp"
     app:cv_bg_color="#f00"
     app:cv_bg_color_clicked="#0f0"
     app:cv_bg_color_error_clicked="#0f0"
@@ -122,6 +124,12 @@ mChipsView.setChipsListener(new ChipsView.ChipsListener() {
 
 ```java
 mChipsView.addChip(email, imgUrl, contact);
+```
+
+**Add a non-removable chip.**
+
+```java
+mChipsView.addChip(email, imgUrl, contact, true);
 ```
 
 **Remove a chip**

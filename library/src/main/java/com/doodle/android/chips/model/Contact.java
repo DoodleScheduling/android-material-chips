@@ -73,12 +73,12 @@ public class Contact implements Comparable<Contact>, Serializable {
         mInitials = initialsBuilder.toString();
     }
 
-    @NonNull
+    @Nullable
     public String getFirstName() {
         return mFirstName;
     }
 
-    @NonNull
+    @Nullable
     public String getLastName() {
         return mLastName;
     }

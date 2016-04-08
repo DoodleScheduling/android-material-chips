@@ -30,11 +30,13 @@ public class ChipsVerticalLinearLayout extends LinearLayout {
     private List<LinearLayout> mLineLayouts = new ArrayList<>();
 
     private float mDensity;
+    private int mRowSpacing;
 
-    public ChipsVerticalLinearLayout(Context context) {
+    public ChipsVerticalLinearLayout(Context context, int rowSpacing) {
         super(context);
 
         mDensity = getResources().getDisplayMetrics().density;
+        mRowSpacing = rowSpacing;
 
         init();
     }
@@ -83,7 +85,7 @@ public class ChipsVerticalLinearLayout extends LinearLayout {
 
     private LinearLayout createHorizontalView() {
         LinearLayout ll = new LinearLayout(getContext());
-        ll.setPadding(0, 0, 0, (int) (ChipsView.CHIP_BOTTOM_PADDING * mDensity));
+        ll.setPadding(0, 0, 0, mRowSpacing);
         ll.setOrientation(HORIZONTAL);
         addView(ll);
         mLineLayouts.add(ll);
