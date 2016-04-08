@@ -118,7 +118,7 @@ public class ChipsEmailDialogFragment extends DialogFragment {
 
     private void positiveClick() {
         String text = mEditText.getText().toString();
-        if (text.length() > 0 && Common.isValidEmail(text)) {
+        if (text.length() > 0 && Common.isValidEmail(text.trim())) {
             if (mEmailListener != null) {
                 mEmailListener.onDialogEmailEntered(text, mInitialText);
             }

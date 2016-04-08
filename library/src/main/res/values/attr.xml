@@ -17,5 +17,7 @@
         <attr name="cv_dialog_confirm" format="string"/>
         <attr name="cv_dialog_cancel" format="string"/>
         <attr name="cv_dialog_error_msg" format="string"/>
+        <attr name="cv_max_height" format="dimension"/>
+        <attr name="cv_vertical_spacing" format="dimension"/>
     </declare-styleable>
 </resources>

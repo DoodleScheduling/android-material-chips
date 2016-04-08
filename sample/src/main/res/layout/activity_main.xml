@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,26 +11,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:elevation="6dp"
         android:orientation="horizontal"
-        android:background="@color/paper">
+        android:background="@color/paper"
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="8dp"
-            android:text="to:"/>
+            android:text="To"
+            />
 
         <com.doodle.android.chips.ChipsView
-            android:id="@+id/chipsView"
+            android:id="@+id/cv_contacts"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            app:cv_max_height="120dp"
+            app:cv_vertical_spacing="2dp"
+            />
 
         <!--
             customize with: .. xmlns:app="http://schemas.android.com/apk/res-auto" ..
+            app:cv_max_height="120dp"
+            app:cv_vertical_spacing="2dp"
             app:cv_bg_color="#f00"
             app:cv_bg_color_clicked="#0f0"
             app:cv_color="#00f"
@@ -47,7 +54,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/rv_contacts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.doodle.android.chips.dialog.ChipsEmailDialogFragment;
@@ -60,19 +62,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ChipsView extends RelativeLayout implements ChipsEditText.InputConnectionWrapperInterface, ChipsEmailDialogFragment.EmailListener {
+public class ChipsView extends ScrollView implements ChipsEditText.InputConnectionWrapperInterface, ChipsEmailDialogFragment.EmailListener {
 
+    //<editor-fold desc="Static Fields">
     private static final String TAG = "ChipsView";
+    private static final int CHIP_HEIGHT = 32; // dp
+    private static final int SPACING_TOP = 4; // dp
+    private static final int SPACING_BOTTOM = 4; // dp
+    public static final int DEFAULT_VERTICAL_SPACING = 1; // dp
+    private static final int DEFAULT_MAX_HEIGHT = -1;
+    //</editor-fold>
 
-    private static final int CHIP_HEIGHT = 33;
-    private static final int TEXT_EXTRA_TOP_MARGIN = 4;
-    public static final int CHIP_BOTTOM_PADDING = 1;
-
-    // RES --------------------------------------------------
-
+    //<editor-fold desc="Resources">
     private int mChipsBgRes = R.drawable.chip_background;
+    //</editor-fold>
 
-    // ------------------------------------------------------
+    //<editor-fold desc="Attributes">
+    private int mMaxHeight; // px
+    private int mVerticalSpacing;
 
     private int mChipsColor;
     private int mChipsColorClicked;
@@ -91,24 +98,21 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
     private String mChipsDialogConfirm;
     private String mChipsDialogCancel;
     private String mChipsDialogErrorMsg;
+    //</editor-fold>
 
-    // ------------------------------------------------------
-
+    //<editor-fold desc="Private Fields">
     private float mDensity;
-
+    private RelativeLayout mChipsContainer;
     private ChipsListener mChipsListener;
-
     private ChipsEditText mEditText;
     private ChipsVerticalLinearLayout mRootChipsLayout;
-
     private EditTextListener mEditTextListener;
-
     private List<Chip> mChipList = new ArrayList<>();
-
     private Object mCurrentEditTextSpan;
-
     private ChipValidator mChipsValidator;
+    //</editor-fold>
 
+    //<editor-fold desc="Constructors">
     public ChipsView(Context context) {
         super(context);
         init();
@@ -132,13 +136,30 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         initAttr(context, attrs);
         init();
     }
+    //</editor-fold>
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if(mMaxHeight != DEFAULT_MAX_HEIGHT) {
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.AT_MOST);
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    protected boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect) {
+        return true;
+    }
+
+    //<editor-fold desc="Initialization">
     private void initAttr(Context context, AttributeSet attrs) {
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.ChipsView,
                 0, 0);
         try {
+            mMaxHeight = a.getDimensionPixelSize(R.styleable.ChipsView_cv_max_height, DEFAULT_MAX_HEIGHT);
+            mVerticalSpacing = a.getDimensionPixelSize(R.styleable.ChipsView_cv_vertical_spacing, (int) (DEFAULT_VERTICAL_SPACING * mDensity));
             mChipsColor = a.getColor(R.styleable.ChipsView_cv_color,
                     ContextCompat.getColor(context, R.color.base30));
             mChipsColorClicked = a.getColor(R.styleable.ChipsView_cv_color_clicked,
@@ -186,8 +207,6 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
             if (TextUtils.isEmpty(mChipsDialogErrorMsg)) {
                 mChipsDialogErrorMsg = getResources().getString(R.string.please_enter_a_valid_email_address);
             }
-
-
         } finally {
             a.recycle();
         }
@@ -196,6 +215,9 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
     private void init() {
         mDensity = getResources().getDisplayMetrics().density;
 
+        mChipsContainer = new RelativeLayout(getContext());
+        addView(mChipsContainer);
+
         // Dummy item to prevent AutoCompleteTextView from receiving focus
         LinearLayout linearLayout = new LinearLayout(getContext());
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(0, 0);
@@ -203,30 +225,37 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         linearLayout.setFocusable(true);
         linearLayout.setFocusableInTouchMode(true);
 
-        addView(linearLayout);
+        mChipsContainer.addView(linearLayout);
 
         mEditText = new ChipsEditText(getContext(), this);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.topMargin = (int) (SPACING_TOP * mDensity);
+        layoutParams.bottomMargin = (int) (SPACING_BOTTOM * mDensity) + mVerticalSpacing;
+        mEditText.setLayoutParams(layoutParams);
+        mEditText.setMinHeight((int) (CHIP_HEIGHT * mDensity));
+        mEditText.setPadding(0, 0, 0, 0);
+        mEditText.setLineSpacing(mVerticalSpacing, (CHIP_HEIGHT * mDensity) / mEditText.getLineHeight());
         mEditText.setBackgroundColor(Color.argb(0, 0, 0, 0));
-        mEditText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mEditText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI | EditorInfo.IME_ACTION_UNSPECIFIED);
         mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        //mEditText.setHint(R.string.name_or_email_address);
 
-        addView(mEditText);
+        mChipsContainer.addView(mEditText);
 
-        mRootChipsLayout = new ChipsVerticalLinearLayout(getContext());
+        mRootChipsLayout = new ChipsVerticalLinearLayout(getContext(), mVerticalSpacing);
         mRootChipsLayout.setOrientation(LinearLayout.VERTICAL);
         mRootChipsLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        addView(mRootChipsLayout);
+        mRootChipsLayout.setPadding(0, (int) (SPACING_TOP * mDensity), 0, 0);
+        mChipsContainer.addView(mRootChipsLayout);
 
         initListener();
     }
 
     private void initListener() {
-        setOnClickListener(new OnClickListener() {
+        mChipsContainer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mEditText.requestFocus();
+                unselectAllChips();
             }
         });
 
@@ -236,12 +265,14 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    unSelectChipsExcept(null);
+                    unselectAllChips();
                 }
             }
         });
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Public Methods">
     public void addChip(String displayName, String avatarUrl, Contact contact) {
         addChip(displayName, Uri.parse(avatarUrl), contact);
     }
@@ -260,6 +291,12 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         }
 
         onChipsChanged(true);
+        post(new Runnable() {
+            @Override
+            public void run() {
+                fullScroll(View.FOCUS_DOWN);
+            }
+        });
     }
 
     @NonNull
@@ -288,6 +325,20 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         return null;
     }
 
+    public void setChipsListener(ChipsListener chipsListener) {
+        this.mChipsListener = chipsListener;
+    }
+
+    public void setChipsValidator(ChipValidator chipsValidator) {
+        mChipsValidator = chipsValidator;
+    }
+
+    public EditText getEditText() {
+        return mEditText;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Private Methods">
     /**
      * rebuild all chips and place them right
      */
@@ -305,8 +356,8 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
             return;
         }
 
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.topMargin = (int) (textLineParams.row * CHIP_HEIGHT * mDensity + TEXT_EXTRA_TOP_MARGIN * mDensity);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mEditText.getLayoutParams();
+        params.topMargin = (int) ((SPACING_TOP + textLineParams.row * CHIP_HEIGHT) * mDensity) + textLineParams.row * mVerticalSpacing;
         mEditText.setLayoutParams(params);
         addLeadingMarginSpan(textLineParams.lineMargin);
         if (moveCursor) {
@@ -404,7 +455,7 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
     }
 
     private void onChipInteraction(Chip chip, boolean nameClicked) {
-        unSelectChipsExcept(chip);
+        unselectChipsExcept(chip);
         if (chip.isSelected()) {
             mChipList.remove(chip);
             if (mChipsListener != null) {
@@ -423,7 +474,7 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         }
     }
 
-    private void unSelectChipsExcept(Chip rootChip) {
+    private void unselectChipsExcept(Chip rootChip) {
         for (Chip chip : mChipList) {
             if (chip != rootChip) {
                 chip.setSelected(false);
@@ -432,31 +483,26 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         onChipsChanged(false);
     }
 
+    private void unselectAllChips() {
+        unselectChipsExcept(null);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="InputConnectionWrapperInterface Implementation">
     @Override
     public InputConnection getInputConnection(InputConnection target) {
         return new KeyInterceptingInputConnection(target);
     }
+    //</editor-fold>
 
-    public void setChipsListener(ChipsListener chipsListener) {
-        this.mChipsListener = chipsListener;
-    }
-
+    //<editor-fold desc="EmailListener Implementation">
     @Override
     public void onDialogEmailEntered(String email, String initialText) {
         onEmailRecognized(new Contact(initialText, "", initialText, email, null));
     }
+    //</editor-fold>
 
-    /**
-     * sets the ChipsValidator.
-     */
-    public void setChipsValidator(ChipValidator mChipsValidator) {
-        this.mChipsValidator = mChipsValidator;
-    }
-
-    public EditText getEditText() {
-        return mEditText;
-    }
-
+    //<editor-fold desc="Inner Classes / Interfaces">
     private class EditTextListener implements TextWatcher {
 
         private boolean mIsPasteTextChange = false;
@@ -585,7 +631,7 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
         public View getView() {
             if (mView == null) {
                 mView = (RelativeLayout) inflate(getContext(), R.layout.chips_view, null);
-                mView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) (32 * mDensity)));
+                mView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) (CHIP_HEIGHT * mDensity)));
                 mAvatarView = (ImageView) mView.findViewById(R.id.ri_ch_avatar);
                 mIconWrapper = mView.findViewById(R.id.rl_ch_avatar);
                 mTextView = (TextView) mView.findViewById(R.id.tv_ch_name);
@@ -725,4 +771,5 @@ public class ChipsView extends RelativeLayout implements ChipsEditText.InputConn
     public static abstract class ChipValidator {
         public abstract boolean isValid(Contact contact);
     }
+    //</editor-fold>
 }
