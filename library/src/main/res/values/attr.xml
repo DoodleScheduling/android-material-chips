@@ -2,12 +2,14 @@
 <resources>
     <declare-styleable name="ChipsView">
         <attr name="cv_bg_color" format="color"/>
+        <attr name="cv_bg_color_indelible" format="color"/>
         <attr name="cv_bg_color_clicked" format="color"/>
         <attr name="cv_bg_color_error_clicked" format="color"/>
         <attr name="cv_color" format="color"/>
         <attr name="cv_color_clicked" format="color"/>
         <attr name="cv_color_error_clicked" format="color"/>
         <attr name="cv_text_color" format="color"/>
+        <attr name="cv_text_color_indelible" format="color"/>
         <attr name="cv_text_color_clicked" format="color"/>
         <attr name="cv_text_color_error_clicked" format="color"/>
         <attr name="cv_icon_placeholder" format="reference"/>

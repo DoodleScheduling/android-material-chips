@@ -16,6 +16,8 @@
 
 package com.doodle.android.chips.sample;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -53,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         mContacts.setAdapter(mAdapter);
 
         mChipsView = (ChipsView) findViewById(R.id.cv_contacts);
+
+        mChipsView.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/FiraSans-Medium.ttf"));
+        mChipsView.useInitials(14, Typeface.createFromAsset(this.getAssets(), "fonts/FiraSans-Medium.ttf"), Color.RED);
 
         // change EditText config
         mChipsView.getEditText().setCursorVisible(true);
@@ -166,7 +171,8 @@ public class MainActivity extends AppCompatActivity {
             Contact contact = new Contact(null, null, null, email, imgUrl);
 
             if (selection.isChecked()) {
-                mChipsView.addChip(email, imgUrl, contact);
+                boolean indelibe = Math.random() > 0.2f;
+                mChipsView.addChip(email, imgUrl, contact, indelibe);
             } else {
                 mChipsView.removeChipBy(contact);
             }

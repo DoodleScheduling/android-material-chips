@@ -1,14 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 23
-        versionCode 3
-        versionName "1.1.0"
+        targetSdkVersion 25
+        versionCode 4
+        versionName "1.2.0"
         setProperty("archivesBaseName", "android-material-chips-$versionName")
     }
 
@@ -23,7 +23,7 @@ android {
 dependencies {
     compile 'com.makeramen:roundedimageview:2.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     testCompile 'junit:junit:4.12'
 }
