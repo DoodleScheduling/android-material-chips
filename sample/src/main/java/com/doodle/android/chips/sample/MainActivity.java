@@ -19,6 +19,8 @@ package com.doodle.android.chips.sample;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -87,6 +89,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence text) {
                 mAdapter.filterItems(text);
+            }
+
+            @Override
+            public void onAddChipError(String text) {
+
+                try {
+                    FragmentManager fragmentManager = ((FragmentActivity) MainActivity.this).getSupportFragmentManager();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_TEXT, text);
+                    bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_TITLE, "Title");
+                    bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_PLACEHOLDER, "ChipsDialogPlaceholder");
+                    bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_CONFIRM, "ChipsDialogConfirm");
+                    bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_CANCEL, "ChipsDialogCancel");
+                    bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_ERROR_MSG, "ChipsDialogErrorMsg");
+
+                    ChipsEmailDialogFragment chipsEmailDialogFragment = new ChipsEmailDialogFragment();
+                    chipsEmailDialogFragment.setArguments(bundle);
+                    chipsEmailDialogFragment.setEmailListener(new ChipsEmailDialogFragment.EmailListener() {
+                        @Override
+                        public void onDialogEmailEntered(String text, String displayName) {
+                            mChipsView.addChip(displayName, null, new Contact(null, null, displayName, text, null), false);
+                        }
+                    });
+                    chipsEmailDialogFragment.show(fragmentManager, ChipsEmailDialogFragment.class.getSimpleName());
+                } catch (ClassCastException e) {
+                    Log.e("CHIPS", "Error ClassCast", e);
+                }
             }
         });
     }

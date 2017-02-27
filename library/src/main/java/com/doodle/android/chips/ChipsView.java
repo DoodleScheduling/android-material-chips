@@ -25,12 +25,9 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
@@ -54,7 +51,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.doodle.android.chips.dialog.ChipsEmailDialogFragment;
 import com.doodle.android.chips.model.Contact;
 import com.doodle.android.chips.util.Common;
 import com.doodle.android.chips.views.ChipsEditText;
@@ -66,7 +62,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ChipsView extends ScrollView implements ChipsEditText.InputConnectionWrapperInterface, ChipsEmailDialogFragment.EmailListener {
+public class ChipsView extends ScrollView implements ChipsEditText.InputConnectionWrapperInterface {
 
     //<editor-fold desc="Static Fields">
     private static final String TAG = "ChipsView";
@@ -100,11 +96,6 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     private int mChipsDeleteResId;
     private String mChipsHintText;
 
-    private String mChipsDialogTitle;
-    private String mChipsDialogPlaceholder;
-    private String mChipsDialogConfirm;
-    private String mChipsDialogCancel;
-    private String mChipsDialogErrorMsg;
     private int mChipsMargin;
     //</editor-fold>
 
@@ -208,27 +199,6 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                     R.drawable.ic_person_24dp);
             mChipsDeleteResId = a.getResourceId(R.styleable.ChipsView_cv_icon_delete,
                     R.drawable.ic_close_24dp);
-
-            mChipsDialogTitle = a.getString(R.styleable.ChipsView_cv_dialog_title);
-            if (TextUtils.isEmpty(mChipsDialogTitle)) {
-                mChipsDialogTitle = getResources().getString(R.string.chips_enter_email_address);
-            }
-            mChipsDialogPlaceholder = a.getString(R.styleable.ChipsView_cv_dialog_et_placeholder);
-            if (TextUtils.isEmpty(mChipsDialogPlaceholder)) {
-                mChipsDialogPlaceholder = getResources().getString(R.string.email);
-            }
-            mChipsDialogConfirm = a.getString(R.styleable.ChipsView_cv_dialog_confirm);
-            if (TextUtils.isEmpty(mChipsDialogConfirm)) {
-                mChipsDialogConfirm = getResources().getString(R.string.confirm);
-            }
-            mChipsDialogCancel = a.getString(R.styleable.ChipsView_cv_dialog_cancel);
-            if (TextUtils.isEmpty(mChipsDialogCancel)) {
-                mChipsDialogCancel = getResources().getString(R.string.cancel);
-            }
-            mChipsDialogErrorMsg = a.getString(R.styleable.ChipsView_cv_dialog_error_msg);
-            if (TextUtils.isEmpty(mChipsDialogErrorMsg)) {
-                mChipsDialogErrorMsg = getResources().getString(R.string.please_enter_a_valid_email_address);
-            }
 
             mChipsHintText = a.getString(R.styleable.ChipsView_cv_text_hint);
 
@@ -469,23 +439,8 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     }
 
     private void onNonEmailRecognized(String text) {
-        try {
-            FragmentManager fragmentManager = ((FragmentActivity) getContext()).getSupportFragmentManager();
-
-            Bundle bundle = new Bundle();
-            bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_TEXT, text);
-            bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_TITLE, mChipsDialogTitle);
-            bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_PLACEHOLDER, mChipsDialogPlaceholder);
-            bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_CONFIRM, mChipsDialogConfirm);
-            bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_CANCEL, mChipsDialogCancel);
-            bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_ERROR_MSG, mChipsDialogErrorMsg);
-
-            ChipsEmailDialogFragment chipsEmailDialogFragment = new ChipsEmailDialogFragment();
-            chipsEmailDialogFragment.setArguments(bundle);
-            chipsEmailDialogFragment.setEmailListener(this);
-            chipsEmailDialogFragment.show(fragmentManager, ChipsEmailDialogFragment.class.getSimpleName());
-        } catch (ClassCastException e) {
-            Log.e(TAG, "Error ClassCast", e);
+        if (mChipsListener != null) {
+            mChipsListener.onAddChipError(text);
         }
     }
 
@@ -544,13 +499,6 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     @Override
     public InputConnection getInputConnection(InputConnection target) {
         return new KeyInterceptingInputConnection(target);
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="EmailListener Implementation">
-    @Override
-    public void onDialogEmailEntered(String email, String initialText) {
-        onEmailRecognized(new Contact(initialText, "", initialText, email, null));
     }
     //</editor-fold>
 
@@ -886,6 +834,8 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         void onChipDeleted(Chip chip);
 
         void onTextChanged(CharSequence text);
+
+        void onAddChipError(String text);
     }
 
     public static abstract class ChipValidator {
