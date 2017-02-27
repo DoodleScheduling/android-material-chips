@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAddChipError(String text) {
+            public void onInputNotValid(String text) {
 
                 try {
                     FragmentManager fragmentManager = ((FragmentActivity) MainActivity.this).getSupportFragmentManager();

@@ -440,7 +440,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
 
     private void onNonEmailRecognized(String text) {
         if (mChipsListener != null) {
-            mChipsListener.onAddChipError(text);
+            mChipsListener.onInputNotValid(text);
         }
     }
 
@@ -835,7 +835,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
 
         void onTextChanged(CharSequence text);
 
-        void onAddChipError(String text);
+        void onInputNotValid(String text);
     }
 
     public static abstract class ChipValidator {
