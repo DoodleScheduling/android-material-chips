@@ -381,7 +381,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mEditText.getLayoutParams();
         params.topMargin = (int) ((SPACING_TOP + textLineParams.row * CHIP_HEIGHT) * mDensity) + textLineParams.row * mVerticalSpacing;
         mEditText.setLayoutParams(params);
-        addLeadingMarginSpan(textLineParams.lineMargin);
+        addLeadingMarginSpan(textLineParams.lineMargin + mChipsMargin * textLineParams.chipsCount);
         if (moveCursor) {
             mEditText.setSelection(mEditText.length());
         }
