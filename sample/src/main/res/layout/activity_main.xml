@@ -49,6 +49,7 @@
             app:cv_dialog_et_placeholder="email2"
             app:cv_dialog_confirm="confirm2"
             app:cv_dialog_cancel="cancel2"
+            app:cv_text_hint="This is the hint text"
             -->
 
     </LinearLayout>

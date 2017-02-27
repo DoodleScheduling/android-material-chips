@@ -92,6 +92,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     private int mChipsTextColorErrorClicked;
     private int mChipsPlaceholderResId;
     private int mChipsDeleteResId;
+    private String mChipsHintText;
 
     private String mChipsDialogTitle;
     private String mChipsDialogPlaceholder;
@@ -207,6 +208,8 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
             if (TextUtils.isEmpty(mChipsDialogErrorMsg)) {
                 mChipsDialogErrorMsg = getResources().getString(R.string.please_enter_a_valid_email_address);
             }
+
+            mChipsHintText = a.getString(R.styleable.ChipsView_cv_text_hint);
         } finally {
             a.recycle();
         }
@@ -238,6 +241,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         mEditText.setBackgroundColor(Color.argb(0, 0, 0, 0));
         mEditText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI | EditorInfo.IME_ACTION_UNSPECIFIED);
         mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        mEditText.setHint(mChipsHintText);
 
         mChipsContainer.addView(mEditText);
 
@@ -290,6 +294,8 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
             mChipsListener.onChipAdded(chip);
         }
 
+        mEditText.setHint(null);
+
         onChipsChanged(true);
         post(new Runnable() {
             @Override
@@ -308,6 +314,9 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         for (int i = 0; i < mChipList.size(); i++) {
             if (mChipList.get(i).mContact != null && mChipList.get(i).mContact.equals(contact)) {
                 mChipList.remove(i);
+                if(mChipList.isEmpty()) {
+                    mEditText.setHint(mChipsHintText);
+                }
                 onChipsChanged(true);
                 return true;
             }
