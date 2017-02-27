@@ -1,3 +1,11 @@
+1.2.0
+-----
+##### Features
+ * Add custom chips margin: `app:cv_chips_margin="${dimension}"`
+ * Add custom TypeFace: `.setTypeface(...)`
+ * There is no Email dialog anymore. Show your own dialog when `onAddChipError` gets called.
+ * Use initials instead of the default person icon: `useInitials(...)`
+
 1.1.0
 -----
 
