@@ -35,7 +35,7 @@ buildscript {
 }
 
 dependencies {
-    compile 'com.doodle.android:android-material-chips:1.1.0'
+    compile 'com.doodle.android:android-material-chips:1.2.0'
 }
 ```
 
@@ -46,7 +46,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.DoodleScheduling:android-material-chips:1.1.0'
+    compile 'com.github.DoodleScheduling:android-material-chips:1.2.0'
 }
 ```
 
@@ -85,10 +85,6 @@ Include ```xmlns:app="http://schemas.android.com/apk/res-auto"``` and customize 
     app:cv_text_color_error_clicked="#000"
     app:cv_icon_placeholder="@drawable/ic_bug_report_24dp"
     app:cv_icon_delete="@drawable/ic_close_24dp"
-    app:cv_dialog_title="This is the title"
-    app:cv_dialog_et_placeholder="email2"
-    app:cv_dialog_confirm="confirm2"
-    app:cv_dialog_cancel="cancel2"
 ```
 ======
 Find the View in your Activity or Fragment class.
