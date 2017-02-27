@@ -16,7 +16,6 @@
 
 package com.doodle.android.chips.sample;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         mChipsView = (ChipsView) findViewById(R.id.cv_contacts);
 
         mChipsView.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/FiraSans-Medium.ttf"));
-        mChipsView.useInitials(14, Typeface.createFromAsset(this.getAssets(), "fonts/FiraSans-Medium.ttf"), Color.RED);
+        // mChipsView.useInitials(14, Typeface.createFromAsset(this.getAssets(), "fonts/FiraSans-Medium.ttf"), Color.RED);
 
         // change EditText config
         mChipsView.getEditText().setCursorVisible(true);

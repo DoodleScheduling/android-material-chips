@@ -22,5 +22,6 @@
         <attr name="cv_max_height" format="dimension"/>
         <attr name="cv_vertical_spacing" format="dimension"/>
         <attr name="cv_text_hint" format="string" />
+        <attr name="cv_chips_margin" format="dimension"/>
     </declare-styleable>
 </resources>

@@ -105,6 +105,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     private String mChipsDialogConfirm;
     private String mChipsDialogCancel;
     private String mChipsDialogErrorMsg;
+    private int mChipsMargin;
     //</editor-fold>
 
     //<editor-fold desc="Private Fields">
@@ -230,6 +231,8 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
             }
 
             mChipsHintText = a.getString(R.styleable.ChipsView_cv_text_hint);
+
+            mChipsMargin = a.getDimensionPixelSize(R.styleable.ChipsView_cv_chips_margin, 0);
         } finally {
             a.recycle();
         }
@@ -681,7 +684,12 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         public View getView() {
             if (mView == null) {
                 mView = (RelativeLayout) inflate(getContext(), R.layout.chips_view, null);
-                mView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) (CHIP_HEIGHT * mDensity)));
+
+                // Layout Params + margins
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) (CHIP_HEIGHT * mDensity));
+                layoutParams.setMargins(0, 0, mChipsMargin, 0);
+                mView.setLayoutParams(layoutParams);
+
                 mAvatarView = (ImageView) mView.findViewById(R.id.ri_ch_avatar);
                 mIconWrapper = mView.findViewById(R.id.rl_ch_avatar);
                 mTextView = (TextView) mView.findViewById(R.id.tv_ch_name);
