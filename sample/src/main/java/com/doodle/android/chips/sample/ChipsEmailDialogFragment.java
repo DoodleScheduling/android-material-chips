@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.doodle.android.chips.dialog;
+package com.doodle.android.chips.sample;
 
 import android.app.Dialog;
 import android.os.Bundle;

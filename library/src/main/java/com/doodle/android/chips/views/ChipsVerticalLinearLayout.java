@@ -53,6 +53,7 @@ public class ChipsVerticalLinearLayout extends LinearLayout {
             return null;
         }
         int widthSum = 0;
+        int chipsCount = 0;
         int rowCounter = 0;
 
         LinearLayout ll = createHorizontalView();
@@ -65,22 +66,25 @@ public class ChipsVerticalLinearLayout extends LinearLayout {
             if (widthSum + view.getMeasuredWidth() > width) {
                 rowCounter++;
                 widthSum = 0;
+                chipsCount = 0;
                 ll = createHorizontalView();
             }
 
             widthSum += view.getMeasuredWidth();
+            chipsCount++;
             ll.addView(view);
         }
 
         // check if there is enough space left
         if (width - widthSum < width * 0.1f) {
             widthSum = 0;
+            chipsCount = 0;
             rowCounter++;
         }
         if (width == 0) {
             rowCounter = 0;
         }
-        return new TextLineParams(rowCounter, widthSum);
+        return new TextLineParams(rowCounter, widthSum, chipsCount);
     }
 
     private LinearLayout createHorizontalView() {
@@ -103,10 +107,12 @@ public class ChipsVerticalLinearLayout extends LinearLayout {
     public static class TextLineParams {
         public int row;
         public int lineMargin;
+        public int chipsCount = 0;
 
-        public TextLineParams(int row, int lineMargin) {
+        public TextLineParams(int row, int lineMargin, int chipsCount) {
             this.row = row;
             this.lineMargin = lineMargin;
+            this.chipsCount = chipsCount;
         }
     }
 }
