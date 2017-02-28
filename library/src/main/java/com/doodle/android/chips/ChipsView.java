@@ -93,6 +93,9 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     private int mChipsTextColorClicked;
     private int mChipsTextColorErrorClicked;
     private int mChipsPlaceholderResId;
+    private
+    @ColorInt
+    int mChipsPlaceholderTint;
     private int mChipsDeleteResId;
     private String mChipsHintText;
 
@@ -167,41 +170,21 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         try {
             mMaxHeight = a.getDimensionPixelSize(R.styleable.ChipsView_cv_max_height, DEFAULT_MAX_HEIGHT);
             mVerticalSpacing = a.getDimensionPixelSize(R.styleable.ChipsView_cv_vertical_spacing, (int) (DEFAULT_VERTICAL_SPACING * mDensity));
-            mChipsColor = a.getColor(R.styleable.ChipsView_cv_color,
-                    ContextCompat.getColor(context, R.color.base30));
-            mChipsColorClicked = a.getColor(R.styleable.ChipsView_cv_color_clicked,
-                    ContextCompat.getColor(context, R.color.colorPrimaryDark));
-            mChipsColorErrorClicked = a.getColor(R.styleable.ChipsView_cv_color_error_clicked,
-                    ContextCompat.getColor(context, R.color.color_error));
-
-            mChipsBgColor = a.getColor(R.styleable.ChipsView_cv_bg_color,
-                    ContextCompat.getColor(context, R.color.base10));
-            mChipsBgColorClicked = a.getColor(R.styleable.ChipsView_cv_bg_color_clicked,
-                    ContextCompat.getColor(context, R.color.blue));
-
-            mChipsBgColorIndelible = a.getColor(R.styleable.ChipsView_cv_bg_color_indelible,
-                    mChipsBgColor);
-
-            mChipsBgColorErrorClicked = a.getColor(R.styleable.ChipsView_cv_bg_color_clicked,
-                    ContextCompat.getColor(context, R.color.color_error));
-
-            mChipsTextColor = a.getColor(R.styleable.ChipsView_cv_text_color,
-                    Color.BLACK);
-            mChipsTextColorClicked = a.getColor(R.styleable.ChipsView_cv_text_color_clicked,
-                    Color.WHITE);
-            mChipsTextColorErrorClicked = a.getColor(R.styleable.ChipsView_cv_text_color_clicked,
-                    Color.WHITE);
-
-            mChipsTextColorIndelible = a.getColor(R.styleable.ChipsView_cv_text_color_indelible,
-                    mChipsTextColor);
-
-            mChipsPlaceholderResId = a.getResourceId(R.styleable.ChipsView_cv_icon_placeholder,
-                    R.drawable.ic_person_24dp);
-            mChipsDeleteResId = a.getResourceId(R.styleable.ChipsView_cv_icon_delete,
-                    R.drawable.ic_close_24dp);
-
+            mChipsColor = a.getColor(R.styleable.ChipsView_cv_color, ContextCompat.getColor(context, R.color.base30));
+            mChipsColorClicked = a.getColor(R.styleable.ChipsView_cv_color_clicked, ContextCompat.getColor(context, R.color.colorPrimaryDark));
+            mChipsColorErrorClicked = a.getColor(R.styleable.ChipsView_cv_color_error_clicked, ContextCompat.getColor(context, R.color.color_error));
+            mChipsBgColor = a.getColor(R.styleable.ChipsView_cv_bg_color, ContextCompat.getColor(context, R.color.base10));
+            mChipsBgColorClicked = a.getColor(R.styleable.ChipsView_cv_bg_color_clicked, ContextCompat.getColor(context, R.color.blue));
+            mChipsBgColorIndelible = a.getColor(R.styleable.ChipsView_cv_bg_color_indelible, mChipsBgColor);
+            mChipsBgColorErrorClicked = a.getColor(R.styleable.ChipsView_cv_bg_color_clicked, ContextCompat.getColor(context, R.color.color_error));
+            mChipsTextColor = a.getColor(R.styleable.ChipsView_cv_text_color, Color.BLACK);
+            mChipsTextColorClicked = a.getColor(R.styleable.ChipsView_cv_text_color_clicked, Color.WHITE);
+            mChipsTextColorErrorClicked = a.getColor(R.styleable.ChipsView_cv_text_color_clicked, Color.WHITE);
+            mChipsTextColorIndelible = a.getColor(R.styleable.ChipsView_cv_text_color_indelible, mChipsTextColor);
+            mChipsPlaceholderResId = a.getResourceId(R.styleable.ChipsView_cv_icon_placeholder, R.drawable.ic_person_24dp);
+            mChipsPlaceholderTint = a.getColor(R.styleable.ChipsView_cv_icon_placeholder_tint, 0);
+            mChipsDeleteResId = a.getResourceId(R.styleable.ChipsView_cv_icon_delete, R.drawable.ic_close_24dp);
             mChipsHintText = a.getString(R.styleable.ChipsView_cv_text_hint);
-
             mChipsMargin = a.getDimensionPixelSize(R.styleable.ChipsView_cv_chips_margin, 0);
         } finally {
             a.recycle();
@@ -686,7 +669,10 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                 }
 
                 // set icon resources
-                mPersonIcon.setBackgroundResource(mChipsPlaceholderResId);
+                mPersonIcon.setImageResource(mChipsPlaceholderResId);
+                if (mChipsPlaceholderTint != 0) {
+                    mPersonIcon.setColorFilter(mChipsPlaceholderTint, PorterDuff.Mode.SRC_ATOP);
+                }
                 mCloseIcon.setBackgroundResource(mChipsDeleteResId);
 
                 // USE INITIALS INSTEAD OF PERSON ICON
@@ -778,7 +764,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                 if (mUseInitials) {
                     mInitials.animate().alpha(1f).setDuration(200).setStartDelay(100).start();
                 } else {
-                    mPersonIcon.animate().alpha(0.3f).setDuration(200).setStartDelay(100).start();
+                    mPersonIcon.animate().alpha(1f).setDuration(200).setStartDelay(100).start();
                 }
                 mAvatarView.animate().alpha(1f).setDuration(200).setStartDelay(100).start();
                 mCloseIcon.animate().alpha(0.0f).setDuration(200).start();

@@ -34,6 +34,7 @@
             app:cv_bg_color_indelible="#f00"
             app:cv_text_color_indelible="#0f0"
             app:cv_text_hint="This is the hint text"
+            app:cv_icon_placeholder_tint="#06f"
             app:cv_chips_margin="2dp"
             />
 
@@ -47,7 +48,10 @@
             app:cv_color_clicked="#721"
             app:cv_text_color="#199"
             app:cv_text_color_clicked="#180"
+            app:cv_bg_color_indelible="#f00"
+            app:cv_text_color_indelible="#0f0"
             app:cv_icon_placeholder="@drawable/ic_bug_report_24dp"
+            app:cv_icon_placeholder_tint="#06f"
             app:cv_icon_delete="@drawable/ic_close_24dp"
             app:cv_dialog_title="This is the title"
             app:cv_dialog_et_placeholder="email2"

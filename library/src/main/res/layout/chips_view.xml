@@ -19,8 +19,8 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_centerInParent="true"
-            android:background="@drawable/ic_person_24dp"
-            android:alpha="0.3"
+            android:src="@drawable/ic_person_24dp"
+            android:alpha="1"
             android:gravity="center"/>
 
         <TextView
