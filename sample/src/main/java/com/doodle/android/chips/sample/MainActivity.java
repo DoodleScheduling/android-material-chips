@@ -19,7 +19,6 @@ package com.doodle.android.chips.sample;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -92,10 +91,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onInputNotValid(String text) {
+            public boolean onInputNotRecognized(String text) {
 
                 try {
-                    FragmentManager fragmentManager = ((FragmentActivity) MainActivity.this).getSupportFragmentManager();
+                    FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
 
                     Bundle bundle = new Bundle();
                     bundle.putString(ChipsEmailDialogFragment.EXTRA_STRING_TEXT, text);
@@ -111,12 +110,14 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onDialogEmailEntered(String text, String displayName) {
                             mChipsView.addChip(displayName, null, new Contact(null, null, displayName, text, null), false);
+                            mChipsView.clearText();
                         }
                     });
                     chipsEmailDialogFragment.show(fragmentManager, ChipsEmailDialogFragment.class.getSimpleName());
                 } catch (ClassCastException e) {
                     Log.e("CHIPS", "Error ClassCast", e);
                 }
+                return false;
             }
         });
     }
@@ -200,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
             Contact contact = new Contact(null, null, null, email, imgUrl);
 
             if (selection.isChecked()) {
-                boolean indelibe = Math.random() > 0.2f;
+                boolean indelibe = Math.random() > 0.8f;
                 mChipsView.addChip(email, imgUrl, contact, indelibe);
             } else {
                 mChipsView.removeChipBy(contact);

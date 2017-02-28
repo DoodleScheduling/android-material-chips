@@ -318,6 +318,11 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         this.mInitialsTextColor = textColor;
     }
 
+    public void clearText() {
+        mEditText.setText("");
+        onChipsChanged(true);
+    }
+
     @NonNull
     public List<Chip> getChips() {
         return Collections.unmodifiableList(mChipList);
@@ -408,16 +413,23 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         mEditText.setText(spannable);
     }
 
-    private void onEnterPressed(String text) {
+    /**
+     * return true if the text should be deleted
+     */
+    private boolean onEnterPressed(String text) {
+        boolean shouldDeleteText = true;
         if (text != null && text.length() > 0) {
 
             if (Common.isValidEmail(text)) {
                 onEmailRecognized(text);
             } else {
-                onNonEmailRecognized(text);
+                shouldDeleteText = onNonEmailRecognized(text);
             }
-            mEditText.setSelection(0);
+            if (shouldDeleteText) {
+                mEditText.setSelection(0);
+            }
         }
+        return shouldDeleteText;
     }
 
     private void onEmailRecognized(String email) {
@@ -438,10 +450,11 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         });
     }
 
-    private void onNonEmailRecognized(String text) {
+    private boolean onNonEmailRecognized(String text) {
         if (mChipsListener != null) {
-            mChipsListener.onInputNotValid(text);
+            return mChipsListener.onInputNotRecognized(text);
         }
+        return true;
     }
 
     private void selectOrDeleteLastChip() {
@@ -532,10 +545,13 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                     while (text.contains("  ")) {
                         text = text.replace("  ", " ");
                     }
-                    s.clear();
                     if (text.length() > 1) {
-                        onEnterPressed(text);
+                        s.clear();
+                        if (!onEnterPressed(text)) {
+                            s.append(text);
+                        }
                     } else {
+                        s.clear();
                         s.append(text);
                     }
                 }
@@ -835,7 +851,10 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
 
         void onTextChanged(CharSequence text);
 
-        void onInputNotValid(String text);
+        /**
+         * return true to delete the invalid text.
+         */
+        boolean onInputNotRecognized(String text);
     }
 
     public static abstract class ChipValidator {
