@@ -1,10 +1,12 @@
 1.2.0
 -----
 ##### Features
- * Add custom chips margin: `app:cv_chips_margin="${dimension}"`
- * Add custom TypeFace: `.setTypeface(...)`
- * There is no Email dialog anymore. Show your own dialog when `onAddChipError` gets called.
- * Use initials instead of the default person icon: `useInitials(...)`
+ * Add chips to the layout live preview.
+ * Add custom chips margin: `app:cv_chips_margin="${dimension}"`.
+ * Add custom TypeFace: `.setTypeface(...)`.
+ * There is no Email dialog anymore. Show your own dialog when `onInputNotRecognized` gets called.
+ * Add option to use initials instead of the default person icon: `useInitials(...)`.
+ * The placeholder has no alpha anymore.
 
 1.1.0
 -----
