@@ -228,6 +228,21 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         mChipsContainer.addView(mRootChipsLayout);
 
         initListener();
+
+        if (isInEditMode()) {
+            // preview chips
+            LinearLayout editModeLinLayout = new LinearLayout(getContext());
+            editModeLinLayout.setOrientation(LinearLayout.HORIZONTAL);
+            mChipsContainer.addView(editModeLinLayout);
+
+            View view = new Chip("Test Chip", null, new Contact(null, null, "Test", "asd@asd.de", null)).getView();
+            view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+            editModeLinLayout.addView(view);
+
+            View view2 = new Chip("Indelible", null, new Contact(null, null, "Test", "asd@asd.de", null), true).getView();
+            view2.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+            editModeLinLayout.addView(view2);
+        }
     }
 
     private void initListener() {
