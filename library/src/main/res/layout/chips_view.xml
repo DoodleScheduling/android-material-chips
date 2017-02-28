@@ -7,7 +7,7 @@
     android:layout_height="32dp"
     android:paddingRight="12dp"
     android:paddingEnd="12dp"
-    tools:background="#345">
+    tools:background="@drawable/chip_background">
 
     <RelativeLayout
         android:id="@+id/rl_ch_avatar"
@@ -60,7 +60,7 @@
         android:layout_marginStart="40dp"
         android:singleLine="true"
         android:textSize="16sp"
-        tools:text="asdasd"
+        tools:text="Chip Text"
         />
 
     <ImageView

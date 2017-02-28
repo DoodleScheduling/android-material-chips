@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -666,16 +667,11 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                     mTextView.setTypeface(mTypeface);
                 }
                 mView.setBackgroundResource(mChipsBgRes);
-                mView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mIsIndelible) {
-                            mView.getBackground().setColorFilter(mChipsBgColorIndelible, PorterDuff.Mode.SRC_ATOP);
-                        } else {
-                            mView.getBackground().setColorFilter(mChipsBgColor, PorterDuff.Mode.SRC_ATOP);
-                        }
-                    }
-                });
+                if (mIsIndelible) {
+                    ((GradientDrawable) mView.getBackground()).setColor(mChipsBgColorIndelible);
+                } else {
+                    ((GradientDrawable) mView.getBackground()).setColor(mChipsBgColor);
+                }
                 mIconWrapper.setBackgroundResource(R.drawable.circle);
                 if (mIsIndelible) {
                     mTextView.setTextColor(mChipsTextColorIndelible);
@@ -742,12 +738,12 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
             if (isSelected()) {
                 if (mChipsValidator != null && !mChipsValidator.isValid(mContact)) {
                     // not valid & show error
-                    mView.getBackground().setColorFilter(mChipsBgColorErrorClicked, PorterDuff.Mode.SRC_ATOP);
+                    ((GradientDrawable) mView.getBackground()).setColor(mChipsBgColorErrorClicked);
                     mTextView.setTextColor(mChipsTextColorErrorClicked);
                     mIconWrapper.getBackground().setColorFilter(mChipsColorErrorClicked, PorterDuff.Mode.SRC_ATOP);
                     mErrorIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
                 } else {
-                    mView.getBackground().setColorFilter(mChipsBgColorClicked, PorterDuff.Mode.SRC_ATOP);
+                    ((GradientDrawable) mView.getBackground()).setColor(mChipsBgColorClicked);
                     mTextView.setTextColor(mChipsTextColorClicked);
                     mIconWrapper.getBackground().setColorFilter(mChipsColorClicked, PorterDuff.Mode.SRC_ATOP);
                 }
@@ -768,10 +764,10 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                     mErrorIcon.setVisibility(View.GONE);
                 }
                 if (mIsIndelible) {
-                    mView.getBackground().setColorFilter(mChipsBgColorIndelible, PorterDuff.Mode.SRC_ATOP);
+                    ((GradientDrawable) mView.getBackground()).setColor(mChipsBgColorIndelible);
                     mTextView.setTextColor(mChipsTextColorIndelible);
                 } else {
-                    mView.getBackground().setColorFilter(mChipsBgColor, PorterDuff.Mode.SRC_ATOP);
+                    ((GradientDrawable) mView.getBackground()).setColor(mChipsBgColor);
                     mTextView.setTextColor(mChipsTextColor);
                 }
                 mIconWrapper.getBackground().setColorFilter(mChipsColor, PorterDuff.Mode.SRC_ATOP);

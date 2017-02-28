@@ -31,9 +31,10 @@
             android:overScrollMode="never"
             app:cv_max_height="120dp"
             app:cv_vertical_spacing="2dp"
-            app:cv_bg_color_indelible="#f00"
-            app:cv_text_color_indelible="#0f0"
+            app:cv_bg_color_indelible="#99dde1e4"
+            app:cv_text_color_indelible="#888"
             app:cv_text_hint="This is the hint text"
+            app:cv_bg_color="#899"
             app:cv_icon_placeholder_tint="#06f"
             app:cv_chips_margin="2dp"
             />
