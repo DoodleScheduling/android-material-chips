@@ -2,6 +2,7 @@
 <resources>
     <style name="Font.Button" parent="Base.TextAppearance.AppCompat.Button">
         <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">bold</item>
     </style>
 </resources>
