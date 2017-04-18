@@ -21,10 +21,10 @@ A different approach to implement android material chips since using transformed
 
 **Customize your layout and text**
 
-##Sample
+## Sample
 **APK:** [sample-apk-1.0.1](https://github.com/DoodleScheduling/android-material-chips/releases/download/1.0.1/android-material-chips-1.0.1-sample.apk)
  
-##Download
+## Download
 
 **Gradle:** 
 
@@ -52,7 +52,7 @@ dependencies {
 }
 ```
 
-##Usage
+## Usage
 
 Use the ChipsView class in your layout file.
 
@@ -63,7 +63,7 @@ Use the ChipsView class in your layout file.
     android:layout_height="wrap_content" />
 ```
 
-###Customize
+### Customize
 
 **Layout**
 
@@ -159,7 +159,7 @@ mChipsView.setChipsValidator(new ChipsView.ChipValidator() {
 <img src="./images/chip_error.png" title="Chip Error" width="80%" />
 </p>
 
-##Apps with Android chips:
+## Apps with Android chips:
 
 * [Doodle](https://doodle.com) Android App: [Play Store](https://play.google.com/store/apps/details?id=com.doodle.android)
 
