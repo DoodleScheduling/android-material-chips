@@ -10,6 +10,9 @@ buildscript {
 }
 
 allprojects {
+    // Keeps all staging & build files in one 'build' dir at the project root.
+    buildDir = System.getProperty("user.dir") + "/build/${project.name}"
+
     repositories {
         jcenter()
     }
