@@ -63,7 +63,7 @@
                 android:paddingRight="8dp"
                 android:text="@string/confirm"
                 android:textColor="@color/blue"
-                android:textSize="14sp"
+                style="@style/Font.Button"
                 />
 
             <!--Cancel-->
@@ -80,7 +80,7 @@
                 android:paddingRight="8dp"
                 android:text="@string/cancel"
                 android:textColor="@color/blue"
-                android:textSize="14sp"
+                style="@style/Font.Button"
                 />
 
         </RelativeLayout>

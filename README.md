@@ -12,6 +12,8 @@ A different approach to implement android material chips since using transformed
 
 **Email validation dialog**
 
+*** UPDATE: The dialog is not included in version 1.2.0 anymore. Show your own dialog instead. ***
+
 <p>
 <img src="./images/dc3.png" title="MaterialChips3" width="40%" />
 <img src="./images/dc4.png" title="MaterialChips4" width="40%" />
@@ -35,7 +37,7 @@ buildscript {
 }
 
 dependencies {
-    compile 'com.doodle.android:android-material-chips:1.1.0'
+    compile 'com.doodle.android:android-material-chips:1.2.0'
 }
 ```
 
@@ -46,7 +48,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.DoodleScheduling:android-material-chips:1.1.0'
+    compile 'com.github.DoodleScheduling:android-material-chips:1.2.0'
 }
 ```
 
@@ -69,26 +71,24 @@ Include ```xmlns:app="http://schemas.android.com/apk/res-auto"``` and customize 
 
 ```xml
 <com.doodle.android.chips.ChipsView
-    android:id="@+id/chipsView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cv_max_height="120dp"
-    app:cv_vertical_spacing="2dp"
-    app:cv_bg_color="#f00"
-    app:cv_bg_color_clicked="#0f0"
-    app:cv_bg_color_error_clicked="#0f0"
-    app:cv_color="#00f"
-    app:cv_color_clicked="#721"
-    app:cv_color_error_clicked="#f00"
-    app:cv_text_color="#199"
-    app:cv_text_color_clicked="#180"
-    app:cv_text_color_error_clicked="#000"
-    app:cv_icon_placeholder="@drawable/ic_bug_report_24dp"
-    app:cv_icon_delete="@drawable/ic_close_24dp"
-    app:cv_dialog_title="This is the title"
-    app:cv_dialog_et_placeholder="email2"
-    app:cv_dialog_confirm="confirm2"
-    app:cv_dialog_cancel="cancel2"
+	android:id="@+id/chipsView"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	app:cv_max_height="120dp"
+	app:cv_vertical_spacing="2dp"
+	app:cv_bg_color="#f00"
+	app:cv_bg_color_clicked="#0f0"
+	app:cv_color="#00f"
+	app:cv_color_clicked="#721"
+	app:cv_text_color="#199"
+	app:cv_text_color_clicked="#180"
+	app:cv_bg_color_indelible="#f00"
+	app:cv_text_color_indelible="#0f0"
+	app:cv_icon_placeholder="@drawable/ic_bug_report_24dp"
+	app:cv_icon_placeholder_tint="#06f"
+	app:cv_icon_delete="@drawable/ic_close_24dp"
+	app:cv_text_hint="This is the hint text"
+	app:cv_chips_margin="2dp"
 ```
 ======
 Find the View in your Activity or Fragment class.
@@ -116,6 +116,12 @@ mChipsView.setChipsListener(new ChipsView.ChipsListener() {
     @Override
     public void onTextChanged(CharSequence text) {
         // text was changed
+    }
+            
+    @Override
+    public boolean onInputNotRecognized(String text) {
+        // return true to delete the input
+        return false; // keep the typed text
     }
 });
 ```

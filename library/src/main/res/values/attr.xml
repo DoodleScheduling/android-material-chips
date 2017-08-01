@@ -2,22 +2,23 @@
 <resources>
     <declare-styleable name="ChipsView">
         <attr name="cv_bg_color" format="color"/>
+        <attr name="cv_bg_color_indelible" format="color"/>
         <attr name="cv_bg_color_clicked" format="color"/>
         <attr name="cv_bg_color_error_clicked" format="color"/>
         <attr name="cv_color" format="color"/>
         <attr name="cv_color_clicked" format="color"/>
         <attr name="cv_color_error_clicked" format="color"/>
         <attr name="cv_text_color" format="color"/>
+        <attr name="cv_text_color_indelible" format="color"/>
         <attr name="cv_text_color_clicked" format="color"/>
         <attr name="cv_text_color_error_clicked" format="color"/>
         <attr name="cv_icon_placeholder" format="reference"/>
+        <attr name="cv_icon_placeholder_tint" format="color"/>
         <attr name="cv_icon_delete" format="reference"/>
-        <attr name="cv_dialog_title" format="string"/>
-        <attr name="cv_dialog_et_placeholder" format="string"/>
-        <attr name="cv_dialog_confirm" format="string"/>
-        <attr name="cv_dialog_cancel" format="string"/>
         <attr name="cv_dialog_error_msg" format="string"/>
         <attr name="cv_max_height" format="dimension"/>
         <attr name="cv_vertical_spacing" format="dimension"/>
+        <attr name="cv_text_hint" format="string" />
+        <attr name="cv_chips_margin" format="dimension"/>
     </declare-styleable>
 </resources>

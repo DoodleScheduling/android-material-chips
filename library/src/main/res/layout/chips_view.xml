@@ -2,9 +2,12 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="32dp"
-    android:paddingRight="12dp">
+    android:paddingRight="12dp"
+    android:paddingEnd="12dp"
+    tools:background="@drawable/chip_background">
 
     <RelativeLayout
         android:id="@+id/rl_ch_avatar"
@@ -16,9 +19,19 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_centerInParent="true"
-            android:background="@drawable/ic_person_24dp"
-            android:alpha="0.3"
+            android:src="@drawable/ic_person_24dp"
+            android:alpha="1"
             android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tv_ch_initials"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textAllCaps="true"
+            tools:visibility="visible"
+            tools:text="at"/>
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/ri_ch_avatar"
@@ -43,11 +56,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/rl_ch_avatar"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
         android:singleLine="true"
         android:textSize="16sp"
-        android:text="asdasd"
+        tools:text="Chip Text"
         />
 
     <ImageView
@@ -55,8 +68,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/tv_ch_name"
+        android:layout_toEndOf="@id/tv_ch_name"
         android:layout_centerVertical="true"
         android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         android:src="@drawable/ic_error_red_24dp"
         android:visibility="gone"/>
 
