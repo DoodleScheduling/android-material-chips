@@ -123,6 +123,8 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     private int mInitialsTextColor;
     //</editor-fold>
 
+    private boolean readOnly;
+
     //<editor-fold desc="Constructors">
     public ChipsView(Context context) {
         super(context);
@@ -359,6 +361,14 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         mChipsValidator = chipsValidator;
     }
 
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+    }
+
     public EditText getEditText() {
         return mEditText;
     }
@@ -474,6 +484,8 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     }
 
     private void onChipInteraction(Chip chip, boolean nameClicked) {
+        if (readOnly) return;
+
         unselectChipsExcept(chip);
         if (chip.isSelected()) {
             mChipList.remove(chip);
