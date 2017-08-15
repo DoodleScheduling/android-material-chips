@@ -151,7 +151,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if(mMaxHeight != DEFAULT_MAX_HEIGHT) {
+        if (mMaxHeight != DEFAULT_MAX_HEIGHT) {
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.AT_MOST);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -331,7 +331,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         for (int i = 0; i < mChipList.size(); i++) {
             if (mChipList.get(i).mContact != null && mChipList.get(i).mContact.equals(contact)) {
                 mChipList.remove(i);
-                if(mChipList.isEmpty()) {
+                if (mChipList.isEmpty()) {
                     mEditText.setHint(mChipsHintText);
                 }
                 onChipsChanged(true);
@@ -372,6 +372,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     //</editor-fold>
 
     //<editor-fold desc="Private Methods">
+
     /**
      * rebuild all chips and place them right
      */
@@ -541,7 +542,17 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         public void afterTextChanged(Editable s) {
             if (mIsPasteTextChange) {
                 mIsPasteTextChange = false;
-                // todo handle copy/paste text here
+                // The user copy/pasted stuff here
+                String[] textSplit = s.toString().split("[\u00a0 ,;\n]"); // u00a0 = NO-BREAK SPACE
+                if (textSplit.length > 1) {
+                    for (String split : textSplit) {
+                        split = split.replaceAll("[\u00a0 ]", "");
+                        if (!TextUtils.isEmpty(split)) {
+                            onEnterPressed(split);
+                        }
+                    }
+                }
+                s.clear();
 
             } else {
                 // no paste text change
@@ -660,14 +671,14 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                 layoutParams.setMargins(0, 0, mChipsMargin, 0);
                 mView.setLayoutParams(layoutParams);
 
-                mAvatarView = (ImageView) mView.findViewById(R.id.ri_ch_avatar);
+                mAvatarView = mView.findViewById(R.id.ri_ch_avatar);
                 mIconWrapper = mView.findViewById(R.id.rl_ch_avatar);
-                mTextView = (TextView) mView.findViewById(R.id.tv_ch_name);
-                mInitials = (TextView) mView.findViewById(R.id.tv_ch_initials);
-                mPersonIcon = (ImageView) mView.findViewById(R.id.iv_ch_person);
-                mCloseIcon = (ImageView) mView.findViewById(R.id.iv_ch_close);
+                mTextView = mView.findViewById(R.id.tv_ch_name);
+                mInitials = mView.findViewById(R.id.tv_ch_initials);
+                mPersonIcon = mView.findViewById(R.id.iv_ch_person);
+                mCloseIcon = mView.findViewById(R.id.iv_ch_close);
 
-                mErrorIcon = (ImageView) mView.findViewById(R.id.iv_ch_error);
+                mErrorIcon = mView.findViewById(R.id.iv_ch_error);
 
                 // set initial res & attrs
                 if (mTypeface != null) {
