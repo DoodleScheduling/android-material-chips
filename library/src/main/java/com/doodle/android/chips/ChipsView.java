@@ -533,7 +533,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (count > 1) {
+            if (count - before > 1) {
                 mIsPasteTextChange = true;
             }
         }
