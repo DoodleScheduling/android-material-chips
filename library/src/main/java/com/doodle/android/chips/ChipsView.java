@@ -439,6 +439,25 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         return shouldDeleteText;
     }
 
+    private void onTextPasted(String[] textSplitList) {
+        List<String> notValidEmails = new ArrayList<>();
+        for (String split : textSplitList) {
+            if (!TextUtils.isEmpty(split)) {
+                split = split.replaceAll("[\u00a0 ]", "");
+                if (Common.isValidEmail(split)) {
+                    onEmailRecognized(split);
+                } else {
+                    notValidEmails.add(split);
+                }
+            }
+        }
+        if (notValidEmails.size() > 0) {
+            if (mChipsListener != null) {
+                mChipsListener.onInputNotRecognized(TextUtils.join(", ", notValidEmails));
+            }
+        }
+    }
+
     private void onEmailRecognized(String email) {
         onEmailRecognized(new Contact(email, "", null, email, null));
     }
@@ -545,12 +564,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                 // The user copy/pasted stuff here
                 String[] textSplit = s.toString().split("[\u00a0 ,;\n]"); // u00a0 = NO-BREAK SPACE
                 if (textSplit.length > 1) {
-                    for (String split : textSplit) {
-                        split = split.replaceAll("[\u00a0 ]", "");
-                        if (!TextUtils.isEmpty(split)) {
-                            onEnterPressed(split);
-                        }
-                    }
+                    onTextPasted(textSplit);
                     s.clear();
                 }
 
