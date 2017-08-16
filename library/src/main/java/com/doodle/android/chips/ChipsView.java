@@ -551,8 +551,8 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                             onEnterPressed(split);
                         }
                     }
+                    s.clear();
                 }
-                s.clear();
 
             } else {
                 // no paste text change
