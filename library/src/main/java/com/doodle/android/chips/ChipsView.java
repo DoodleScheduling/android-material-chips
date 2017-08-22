@@ -366,6 +366,10 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         mChipsValidator = chipsValidator;
     }
 
+    public void setKeyListener(@Nullable ChipsEditText.KeyListener listener) {
+        mEditText.setKeyListener(listener);
+    }
+
     public EditText getEditText() {
         return mEditText;
     }

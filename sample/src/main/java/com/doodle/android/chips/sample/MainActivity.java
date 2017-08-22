@@ -25,14 +25,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.doodle.android.chips.ChipsView;
 import com.doodle.android.chips.model.Contact;
+import com.doodle.android.chips.views.ChipsEditText;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mContacts;
     private ContactsAdapter mAdapter;
     private ChipsView mChipsView;
+    private boolean backPressedOnce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +120,19 @@ public class MainActivity extends AppCompatActivity {
                     chipsEmailDialogFragment.show(fragmentManager, ChipsEmailDialogFragment.class.getSimpleName());
                 } catch (ClassCastException e) {
                     Log.e("CHIPS", "Error ClassCast", e);
+                }
+                return false;
+            }
+        });
+
+        mChipsView.setKeyListener(new ChipsEditText.KeyListener() {
+            @Override
+            public boolean onInterceptKeyPreIme(int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    if (!backPressedOnce) {
+                        Toast.makeText(MainActivity.this, "onBackPressed", Toast.LENGTH_SHORT).show();
+                        return backPressedOnce = true;
+                    }
                 }
                 return false;
             }

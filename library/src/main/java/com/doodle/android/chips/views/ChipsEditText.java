@@ -17,13 +17,16 @@
 package com.doodle.android.chips.views;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
+import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 
 public class ChipsEditText extends AppCompatEditText {
 
     private InputConnectionWrapperInterface mInputConnectionWrapperInterface;
+    private KeyListener mKeyListener;
 
     public ChipsEditText(Context context, InputConnectionWrapperInterface inputConnectionWrapperInterface) {
         super(context);
@@ -41,5 +44,23 @@ public class ChipsEditText extends AppCompatEditText {
 
     public interface InputConnectionWrapperInterface {
         InputConnection getInputConnection(InputConnection target);
+    }
+
+    @Override
+    public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+        if (mKeyListener != null) {
+            if (mKeyListener.onInterceptKeyPreIme(keyCode, event)) {
+                return true;
+            }
+        }
+        return super.onKeyPreIme(keyCode, event);
+    }
+
+    public void setKeyListener(@Nullable KeyListener listener) {
+        mKeyListener = listener;
+    }
+
+    public interface KeyListener {
+        boolean onInterceptKeyPreIme(int keyCode, KeyEvent event);
     }
 }
