@@ -184,7 +184,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
             mChipsTextColorClicked = a.getColor(R.styleable.ChipsView_cv_text_color_clicked, Color.WHITE);
             mChipsTextColorErrorClicked = a.getColor(R.styleable.ChipsView_cv_text_color_clicked, Color.WHITE);
             mChipsTextColorIndelible = a.getColor(R.styleable.ChipsView_cv_text_color_indelible, mChipsTextColor);
-            mChipsPlaceholderResId = a.getResourceId(R.styleable.ChipsView_cv_icon_placeholder, R.drawable.ic_person_24dp);
+            mChipsPlaceholderResId = a.getResourceId(R.styleable.ChipsView_cv_icon_placeholder, 0);
             mChipsPlaceholderTint = a.getColor(R.styleable.ChipsView_cv_icon_placeholder_tint, 0);
             mChipsDeleteResId = a.getResourceId(R.styleable.ChipsView_cv_icon_delete, R.drawable.ic_close_24dp);
             mChipsHintText = a.getString(R.styleable.ChipsView_cv_text_hint);
