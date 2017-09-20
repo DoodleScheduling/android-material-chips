@@ -275,6 +275,11 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         addChip(displayName, Uri.parse(avatarUrl), contact);
     }
 
+    @SuppressWarnings("ConstantConditions")
+    public void addChip(String displayName) {
+        addChip(displayName, (Uri) null, new Contact(null, null, displayName, null, null));
+    }
+
     public void addChip(String displayName, Uri avatarUrl, Contact contact) {
         addChip(displayName, avatarUrl, contact, false);
         mEditText.setText("");
