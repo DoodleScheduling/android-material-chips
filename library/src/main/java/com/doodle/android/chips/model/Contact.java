@@ -23,7 +23,16 @@ import android.text.TextUtils;
 
 import java.io.Serializable;
 
+/**
+ * Modified by Gagan Singh on 8/20/2017.
+ * Added optional ID property. When contacts are retrieved from the device,
+ * pass the ID from the user's contact into this contact object to set the color of the chip.
+ * Added ContactType and Phone Number for alternate contact information, developer can decide between phone and email.
+ */
 public class Contact implements Comparable<Contact>, Serializable {
+
+    @Nullable
+    private final String mId;
 
     @Nullable
     private final String mFirstName;
@@ -31,8 +40,16 @@ public class Contact implements Comparable<Contact>, Serializable {
     @Nullable
     private final String mLastName;
 
+    public enum ContactType {
+        EMAIL,
+        PHONE,
+    }
+
     @NonNull
-    private final String mEmailAddress;
+    private ContactType mContactType;
+
+    @NonNull
+    private final String mContactInfo;
 
     @Nullable
     private transient final Uri mAvatarUri;
@@ -43,17 +60,20 @@ public class Contact implements Comparable<Contact>, Serializable {
     @NonNull
     private final String mInitials;
 
-    public Contact(@Nullable String firstName, @Nullable String lastName, @Nullable String displayName, @NonNull String emailAddress, @Nullable Uri avatarUri) {
+    public Contact(@Nullable String id, @Nullable String firstName, @Nullable String lastName, @Nullable String displayName,
+                   @NonNull ContactType contactType, @NonNull String contactInfo, @Nullable Uri avatarUri) {
+        mId = id;
         mFirstName = firstName;
         mLastName = lastName;
         mAvatarUri = avatarUri;
-        mEmailAddress = emailAddress;
+        mContactType = contactType;
+        mContactInfo = contactInfo;
 
         if (!TextUtils.isEmpty(displayName)) {
             mDisplayName = displayName;
         } else if (TextUtils.isEmpty(mFirstName)) {
             if (TextUtils.isEmpty(mLastName)) {
-                mDisplayName = mEmailAddress;
+                mDisplayName = contactInfo;
             } else {
                 mDisplayName = mLastName;
             }
@@ -74,6 +94,11 @@ public class Contact implements Comparable<Contact>, Serializable {
     }
 
     @Nullable
+    public String getId() {
+        return mId;
+    }
+
+    @Nullable
     public String getFirstName() {
         return mFirstName;
     }
@@ -84,8 +109,13 @@ public class Contact implements Comparable<Contact>, Serializable {
     }
 
     @NonNull
-    public String getEmailAddress() {
-        return mEmailAddress;
+    public ContactType getContactType() {
+        return mContactType;
+    }
+
+    @NonNull
+    public String getContactInfo() {
+        return mContactInfo;
     }
 
     @Nullable
@@ -149,7 +179,7 @@ public class Contact implements Comparable<Contact>, Serializable {
             }
         }
 
-        return mEmailAddress.compareTo(another.mEmailAddress);
+        return mContactInfo.compareTo(another.mContactInfo);
     }
 
     private int compare(String myString, String otherString) {
@@ -171,7 +201,7 @@ public class Contact implements Comparable<Contact>, Serializable {
         String lowerCaseSearchString = searchString.toString().toLowerCase();
         return (mFirstName != null && mFirstName.toLowerCase().contains(lowerCaseSearchString)) ||
                 (mLastName != null && mLastName.toLowerCase().contains(lowerCaseSearchString)) ||
-                mEmailAddress.toLowerCase().contains(lowerCaseSearchString);
+                mContactInfo.toLowerCase().contains(lowerCaseSearchString);
     }
 
 
@@ -182,14 +212,14 @@ public class Contact implements Comparable<Contact>, Serializable {
 
         Contact contact = (Contact) o;
 
-        if (!mEmailAddress.equals(contact.mEmailAddress)) return false;
+        if (!mContactInfo.equals(contact.mContactInfo)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return mEmailAddress.hashCode();
+        return mContactInfo.hashCode();
     }
 
     @Override
@@ -197,7 +227,8 @@ public class Contact implements Comparable<Contact>, Serializable {
         return "Contact{" +
                 "mFirstName='" + mFirstName + '\'' +
                 ", mLastName='" + mLastName + '\'' +
-                ", mEmailAddress='" + mEmailAddress + '\'' +
+                ", mContactType='" + mContactType + '\'' +
+                ", mContactInfo='" + mContactInfo + '\'' +
                 ", mAvatarUri=" + mAvatarUri +
                 ", mDisplayName='" + mDisplayName + '\'' +
                 ", mInitials='" + mInitials + '\'' +

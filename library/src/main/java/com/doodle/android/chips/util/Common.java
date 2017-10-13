@@ -23,4 +23,12 @@ public class Common {
     public static boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
+
+    /**
+     * Added by Gagan Singh on 8/20/2017.
+     * Used to validate phone number.
+     */
+    public static boolean isValidPhone(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.PHONE.matcher(target).matches();
+    }
 }
