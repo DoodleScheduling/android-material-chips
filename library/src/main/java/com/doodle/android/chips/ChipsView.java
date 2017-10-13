@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -54,6 +55,7 @@ import android.widget.TextView;
 
 import com.doodle.android.chips.model.Contact;
 import com.doodle.android.chips.util.Common;
+import com.doodle.android.chips.util.LetterTileDrawable;
 import com.doodle.android.chips.views.ChipsEditText;
 import com.doodle.android.chips.views.ChipsVerticalLinearLayout;
 import com.squareup.picasso.Callback;
@@ -63,6 +65,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Modified by Gagan Singh on 8/20/2017.
+ * Added Phone Number as alternate contact information, developer can decide between phone and email.
+ * Added Google's LetterTileDrawable to change the color of a contact chip based on an algorithm.
+ */
 public class ChipsView extends ScrollView implements ChipsEditText.InputConnectionWrapperInterface {
 
     //<editor-fold desc="Static Fields">
@@ -94,6 +101,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     private int mChipsTextColorClicked;
     private int mChipsTextColorErrorClicked;
     private int mChipsPlaceholderResId;
+    private int mChipsWhitePlaceholderResId;
     private
     @ColorInt
     int mChipsPlaceholderTint;
@@ -114,6 +122,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     private Object mCurrentEditTextSpan;
     private ChipValidator mChipsValidator;
     private Typeface mTypeface;
+    private LetterTileDrawable letterTitleDrawable;
 
     // initials
     private boolean mUseInitials = false;
@@ -126,17 +135,20 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     //<editor-fold desc="Constructors">
     public ChipsView(Context context) {
         super(context);
+        letterTitleDrawable = new LetterTileDrawable(getContext().getResources());
         init();
     }
 
     public ChipsView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        letterTitleDrawable = new LetterTileDrawable(getContext().getResources());
         initAttr(context, attrs);
         init();
     }
 
     public ChipsView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        letterTitleDrawable = new LetterTileDrawable(getContext().getResources());
         initAttr(context, attrs);
         init();
     }
@@ -144,6 +156,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ChipsView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        letterTitleDrawable = new LetterTileDrawable(getContext().getResources());
         initAttr(context, attrs);
         init();
     }
@@ -151,7 +164,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if(mMaxHeight != DEFAULT_MAX_HEIGHT) {
+        if (mMaxHeight != DEFAULT_MAX_HEIGHT) {
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.AT_MOST);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -183,6 +196,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
             mChipsTextColorErrorClicked = a.getColor(R.styleable.ChipsView_cv_text_color_clicked, Color.WHITE);
             mChipsTextColorIndelible = a.getColor(R.styleable.ChipsView_cv_text_color_indelible, mChipsTextColor);
             mChipsPlaceholderResId = a.getResourceId(R.styleable.ChipsView_cv_icon_placeholder, R.drawable.ic_person_24dp);
+            mChipsWhitePlaceholderResId = a.getResourceId(R.styleable.ChipsView_cv_icon_placeholder, R.drawable.ic_person);
             mChipsPlaceholderTint = a.getColor(R.styleable.ChipsView_cv_icon_placeholder_tint, 0);
             mChipsDeleteResId = a.getResourceId(R.styleable.ChipsView_cv_icon_delete, R.drawable.ic_close_24dp);
             mChipsHintText = a.getString(R.styleable.ChipsView_cv_text_hint);
@@ -236,11 +250,11 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
             editModeLinLayout.setOrientation(LinearLayout.HORIZONTAL);
             mChipsContainer.addView(editModeLinLayout);
 
-            View view = new Chip("Test Chip", null, new Contact(null, null, "Test", "asd@asd.de", null)).getView();
+            View view = new Chip("Test Chip", null, new Contact(null, null, null, "Test", Contact.ContactType.EMAIL, "asd@asd.de", null)).getView();
             view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             editModeLinLayout.addView(view);
 
-            View view2 = new Chip("Indelible", null, new Contact(null, null, "Test", "asd@asd.de", null), true).getView();
+            View view2 = new Chip("Indelible", null, new Contact(null, null, null, "Test", Contact.ContactType.PHONE, "asd@asd.de", null), true).getView();
             view2.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             editModeLinLayout.addView(view2);
         }
@@ -327,11 +341,33 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         return Collections.unmodifiableList(mChipList);
     }
 
+    public void clearAllChips() {
+        mChipList.clear();
+        if (mChipList.isEmpty()) {
+            mEditText.setHint(mChipsHintText);
+        }
+        onChipsChanged(true);
+    }
+
     public boolean removeChipBy(Contact contact) {
         for (int i = 0; i < mChipList.size(); i++) {
             if (mChipList.get(i).mContact != null && mChipList.get(i).mContact.equals(contact)) {
                 mChipList.remove(i);
-                if(mChipList.isEmpty()) {
+                if (mChipList.isEmpty()) {
+                    mEditText.setHint(mChipsHintText);
+                }
+                onChipsChanged(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean removeChipBy(String id) {
+        for (int i = 0; i < mChipList.size(); i++) {
+            if (mChipList.get(i).mContact != null && mChipList.get(i).mContact.getId().equals(id)) {
+                mChipList.remove(i);
+                if (mChipList.isEmpty()) {
                     mEditText.setHint(mChipsHintText);
                 }
                 onChipsChanged(true);
@@ -345,7 +381,9 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         String text = mEditText.getText().toString();
         if (!TextUtils.isEmpty(text)) {
             if (Common.isValidEmail(text)) {
-                return new Contact(text, "", null, text, null);
+                return new Contact(null, text, "", null, Contact.ContactType.EMAIL, text, null);
+            } else if (Common.isValidEmail(text)) {
+                return new Contact(null, text, "", null, Contact.ContactType.PHONE, text, null);
             }
         }
         return null;
@@ -365,6 +403,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     //</editor-fold>
 
     //<editor-fold desc="Private Methods">
+
     /**
      * rebuild all chips and place them right
      */
@@ -421,9 +460,12 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
 
             if (Common.isValidEmail(text)) {
                 onEmailRecognized(text);
+            } else if (Common.isValidPhone(text)) {
+                onPhoneRecognized(text);
             } else {
                 shouldDeleteText = onNonEmailRecognized(text);
             }
+
             if (shouldDeleteText) {
                 mEditText.setSelection(0);
             }
@@ -432,10 +474,28 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     }
 
     private void onEmailRecognized(String email) {
-        onEmailRecognized(new Contact(email, "", null, email, null));
+        onEmailRecognized(new Contact(null, email, "", null, Contact.ContactType.EMAIL, email, null));
     }
 
     private void onEmailRecognized(Contact contact) {
+        Chip chip = new Chip(contact.getDisplayName(), null, contact);
+        mChipList.add(chip);
+        if (mChipsListener != null) {
+            mChipsListener.onChipAdded(chip);
+        }
+        post(new Runnable() {
+            @Override
+            public void run() {
+                onChipsChanged(true);
+            }
+        });
+    }
+
+    private void onPhoneRecognized(String phone) {
+        onPhoneRecognized(new Contact(null, phone, "", null, Contact.ContactType.PHONE, phone, null));
+    }
+
+    private void onPhoneRecognized(Contact contact) {
         Chip chip = new Chip(contact.getDisplayName(), null, contact);
         mChipList.add(chip);
         if (mChipsListener != null) {
@@ -482,7 +542,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
             }
             onChipsChanged(true);
             if (nameClicked) {
-                mEditText.setText(chip.getContact().getEmailAddress());
+                mEditText.setText(chip.getContact().getContactInfo());
                 addLeadingMarginSpan();
                 mEditText.requestFocus();
                 mEditText.setSelection(mEditText.length());
@@ -636,7 +696,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
             this.mIsIndelible = isIndelible;
 
             if (mLabel == null) {
-                mLabel = contact.getEmailAddress();
+                mLabel = contact.getContactInfo();
             }
 
             if (mLabel.length() > MAX_LABEL_LENGTH) {
@@ -672,7 +732,15 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                 } else {
                     ((GradientDrawable) mView.getBackground()).setColor(mChipsBgColor);
                 }
-                mIconWrapper.setBackgroundResource(R.drawable.circle);
+                try {
+                    mIconWrapper.setBackgroundResource(R.drawable.circle);
+                    if (mContact.getId() != null) {
+                        mIconWrapper.getBackground().setColorFilter(letterTitleDrawable.pickColor(mContact.getId()), PorterDuff.Mode.SRC_ATOP);
+                    } else {
+                        mIconWrapper.getBackground().setColorFilter(mChipsColor, PorterDuff.Mode.SRC_ATOP);
+                    }
+                } catch (Exception e) {}
+
                 if (mIsIndelible) {
                     mTextView.setTextColor(mChipsTextColorIndelible);
                 } else {
@@ -680,7 +748,12 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                 }
 
                 // set icon resources
-                mPersonIcon.setImageResource(mChipsPlaceholderResId);
+                if (mContact.getId() == null) {
+                    mPersonIcon.setImageResource(mChipsPlaceholderResId);
+                } else {
+                    mPersonIcon.setImageResource(mChipsWhitePlaceholderResId);
+                }
+
                 if (mChipsPlaceholderTint != 0) {
                     mPersonIcon.setColorFilter(mChipsPlaceholderTint, PorterDuff.Mode.SRC_ATOP);
                 }
@@ -770,7 +843,14 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
                     ((GradientDrawable) mView.getBackground()).setColor(mChipsBgColor);
                     mTextView.setTextColor(mChipsTextColor);
                 }
-                mIconWrapper.getBackground().setColorFilter(mChipsColor, PorterDuff.Mode.SRC_ATOP);
+
+                try {
+                    if (mContact.getId() != null) {
+                        mIconWrapper.getBackground().setColorFilter(letterTitleDrawable.pickColor(mContact.getId()), PorterDuff.Mode.SRC_ATOP);
+                    } else {
+                        mIconWrapper.getBackground().setColorFilter(mChipsColor, PorterDuff.Mode.SRC_ATOP);
+                    }
+                }catch(Exception e){}
 
                 if (mUseInitials) {
                     mInitials.animate().alpha(1f).setDuration(200).setStartDelay(100).start();

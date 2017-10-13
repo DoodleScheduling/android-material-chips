@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     chipsEmailDialogFragment.setEmailListener(new ChipsEmailDialogFragment.EmailListener() {
                         @Override
                         public void onDialogEmailEntered(String text, String displayName) {
-                            mChipsView.addChip(displayName, null, new Contact(null, null, displayName, text, null), false);
+                            mChipsView.addChip(displayName, null, new Contact(null, null, null, displayName, Contact.ContactType.EMAIL, text, null), false);
                             mChipsView.clearText();
                         }
                     });
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             String email = name.getText().toString();
             Uri imgUrl = Math.random() > .7d ? null : Uri.parse("https://robohash.org/" + Math.abs(email.hashCode()));
-            Contact contact = new Contact(null, null, null, email, imgUrl);
+            Contact contact = new Contact(null, null, null, null, Contact.ContactType.EMAIL, email, imgUrl);
 
             if (selection.isChecked()) {
                 boolean indelibe = Math.random() > 0.8f;
