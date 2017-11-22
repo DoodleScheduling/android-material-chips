@@ -66,12 +66,12 @@ import java.util.List;
 public class ChipsView extends ScrollView implements ChipsEditText.InputConnectionWrapperInterface {
 
     //<editor-fold desc="Static Fields">
-    private static final String TAG = "ChipsView";
-    private static final int CHIP_HEIGHT = 32; // dp
-    private static final int SPACING_TOP = 4; // dp
-    private static final int SPACING_BOTTOM = 4; // dp
-    public static final int DEFAULT_VERTICAL_SPACING = 1; // dp
-    private static final int DEFAULT_MAX_HEIGHT = -1;
+    private static final String TAG                      = "ChipsView";
+    private static final int    CHIP_HEIGHT              = 32; // dp
+    private static final int    SPACING_TOP              = 4; // dp
+    private static final int    SPACING_BOTTOM           = 4; // dp
+    public static final  int    DEFAULT_VERTICAL_SPACING = 1; // dp
+    private static final int    DEFAULT_MAX_HEIGHT       = -1;
     //</editor-fold>
 
     //<editor-fold desc="Resources">
@@ -97,30 +97,30 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     private
     @ColorInt
     int mChipsPlaceholderTint;
-    private int mChipsDeleteResId;
+    private int    mChipsDeleteResId;
     private String mChipsHintText;
 
     private int mChipsMargin;
     //</editor-fold>
 
     //<editor-fold desc="Private Fields">
-    private float mDensity;
-    private RelativeLayout mChipsContainer;
-    private ChipsListener mChipsListener;
-    private ChipsEditText mEditText;
+    private float                     mDensity;
+    private RelativeLayout            mChipsContainer;
+    private ChipsListener             mChipsListener;
+    private ChipsEditText             mEditText;
     private ChipsVerticalLinearLayout mRootChipsLayout;
-    private EditTextListener mEditTextListener;
+    private EditTextListener          mEditTextListener;
     private List<Chip> mChipList = new ArrayList<>();
-    private Object mCurrentEditTextSpan;
+    private Object        mCurrentEditTextSpan;
     private ChipValidator mChipsValidator;
-    private Typeface mTypeface;
+    private Typeface      mTypeface;
 
     // initials
     private boolean mUseInitials = false;
-    private int mInitialsTextSize;
+    private int      mInitialsTextSize;
     private Typeface mInitialsTypeface;
     @ColorInt
-    private int mInitialsTextColor;
+    private int      mInitialsTextColor;
     //</editor-fold>
 
     private boolean readOnly;
@@ -153,7 +153,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if(mMaxHeight != DEFAULT_MAX_HEIGHT) {
+        if (mMaxHeight != DEFAULT_MAX_HEIGHT) {
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.AT_MOST);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -198,16 +198,8 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         mDensity = getResources().getDisplayMetrics().density;
 
         mChipsContainer = new RelativeLayout(getContext());
+        mChipsContainer.setFocusableInTouchMode(false);
         addView(mChipsContainer);
-
-        // Dummy item to prevent AutoCompleteTextView from receiving focus
-        LinearLayout linearLayout = new LinearLayout(getContext());
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(0, 0);
-        linearLayout.setLayoutParams(params);
-        linearLayout.setFocusable(true);
-        linearLayout.setFocusableInTouchMode(true);
-
-        mChipsContainer.addView(linearLayout);
 
         mEditText = new ChipsEditText(getContext(), this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -221,13 +213,14 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         mEditText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI | EditorInfo.IME_ACTION_UNSPECIFIED);
         mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         mEditText.setHint(mChipsHintText);
-
+        mEditText.setFocusableInTouchMode(false);
         mChipsContainer.addView(mEditText);
 
         mRootChipsLayout = new ChipsVerticalLinearLayout(getContext(), mVerticalSpacing);
         mRootChipsLayout.setOrientation(LinearLayout.VERTICAL);
         mRootChipsLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mRootChipsLayout.setPadding(0, (int) (SPACING_TOP * mDensity), 0, 0);
+        mRootChipsLayout.setFocusableInTouchMode(false);
         mChipsContainer.addView(mRootChipsLayout);
 
         initListener();
@@ -338,7 +331,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
         for (int i = 0; i < mChipList.size(); i++) {
             if (mChipList.get(i).mContact != null && mChipList.get(i).mContact.equals(contact)) {
                 mChipList.remove(i);
-                if(mChipList.isEmpty()) {
+                if (mChipList.isEmpty()) {
                     mEditText.setHint(mChipsHintText);
                 }
                 onChipsChanged(true);
@@ -380,6 +373,7 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
     //</editor-fold>
 
     //<editor-fold desc="Private Methods">
+
     /**
      * rebuild all chips and place them right
      */
@@ -624,15 +618,15 @@ public class ChipsView extends ScrollView implements ChipsEditText.InputConnecti
 
         private static final int MAX_LABEL_LENGTH = 30;
 
-        private String mLabel;
-        private final Uri mPhotoUri;
+        private       String  mLabel;
+        private final Uri     mPhotoUri;
         private final Contact mContact;
         private final boolean mIsIndelible;
 
         private RelativeLayout mView;
-        private View mIconWrapper;
-        private TextView mTextView;
-        private TextView mInitials;
+        private View           mIconWrapper;
+        private TextView       mTextView;
+        private TextView       mInitials;
 
         private ImageView mAvatarView;
         private ImageView mPersonIcon;
