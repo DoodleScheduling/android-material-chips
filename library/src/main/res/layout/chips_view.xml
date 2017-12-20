@@ -5,8 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="32dp"
-    android:paddingRight="12dp"
+    android:focusableInTouchMode="false"
     android:paddingEnd="12dp"
+    android:paddingRight="12dp"
     tools:background="@drawable/chip_background">
 
     <RelativeLayout
@@ -19,19 +20,19 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_person_24dp"
             android:alpha="1"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:src="@drawable/ic_person_24dp"/>
 
         <TextView
             android:id="@+id/tv_ch_initials"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:visibility="gone"
             android:textAllCaps="true"
-            tools:visibility="visible"
-            tools:text="at"/>
+            android:visibility="gone"
+            tools:text="at"
+            tools:visibility="visible"/>
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/ri_ch_avatar"
@@ -46,9 +47,10 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_centerInParent="true"
-            android:background="@drawable/ic_close_24dp"
             android:alpha="0"
+            android:background="@drawable/ic_close_24dp"
             android:gravity="center"/>
+
     </RelativeLayout>
 
     <TextView
@@ -60,20 +62,18 @@
         android:layout_marginStart="40dp"
         android:singleLine="true"
         android:textSize="16sp"
-        tools:text="Chip Text"
-        />
+        tools:text="Chip Text"/>
 
     <ImageView
         android:id="@+id/iv_ch_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/tv_ch_name"
-        android:layout_toEndOf="@id/tv_ch_name"
         android:layout_centerVertical="true"
         android:layout_marginLeft="4dp"
         android:layout_marginStart="4dp"
+        android:layout_toEndOf="@id/tv_ch_name"
+        android:layout_toRightOf="@id/tv_ch_name"
         android:src="@drawable/ic_error_red_24dp"
         android:visibility="gone"/>
-
 
 </RelativeLayout>

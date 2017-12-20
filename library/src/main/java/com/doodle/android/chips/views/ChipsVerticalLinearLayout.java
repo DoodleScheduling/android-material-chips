@@ -91,6 +91,7 @@ public class ChipsVerticalLinearLayout extends LinearLayout {
         LinearLayout ll = new LinearLayout(getContext());
         ll.setPadding(0, 0, 0, mRowSpacing);
         ll.setOrientation(HORIZONTAL);
+        ll.setFocusableInTouchMode(false);
         addView(ll);
         mLineLayouts.add(ll);
         return ll;

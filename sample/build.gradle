@@ -1,13 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.0'
+
+    flavorDimensions "dimension"
 
     defaultConfig {
         applicationId "com.doodle.android.chips.sample"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 3
         versionName "1.2.0"
         setProperty("archivesBaseName", "android-material-chips-$versionName-sample")
@@ -21,8 +23,11 @@ android {
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:recyclerview-v7:25.1.1'
-    compile project(':library')
+    implementation project(':library')
+
+    implementation 'com.android.support:appcompat-v7:27.0.1'
+    implementation 'com.android.support:recyclerview-v7:27.0.1'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+
+    testImplementation 'junit:junit:4.12'
 }

@@ -1,12 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.0'
+
+    flavorDimensions "dimension"
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 4
         versionName "1.2.0"
         setProperty("archivesBaseName", "android-material-chips-$versionName")
@@ -21,11 +23,17 @@ android {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:2.0.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.rengwuxian.materialedittext:library:2.1.4'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+
+    // JUnit
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'junit:junit:4.12'
+    // Testing
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test:rules:1.0.1'
 }
 
 task sourcesJar(type: Jar) {
